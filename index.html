@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thozhi - Period Care Buddy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Hind+Madurai:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#fff5f8;--card:#fff;--ink:#3b1a28;--mute:#7a5565;--pri:#d81b60;--soft:#fde4ec;--ok:#1b8a7a;--warn:#b86e00;--bad:#b3261e;--line:#f5d0dd;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a0f1a;--card:#3a1626;--ink:#ffeef4;--mute:#d8a9ba;--pri:#ff6b9d;--soft:#5a2238;--ok:#4fd1bd;--warn:#f0b24a;--bad:#ff8a80;--line:#5c2a40}}
+:root[data-theme="dark"]{--bg:#2a0f1a;--card:#3a1626;--ink:#ffeef4;--mute:#d8a9ba;--pri:#ff6b9d;--soft:#5a2238;--ok:#4fd1bd;--warn:#f0b24a;--bad:#ff8a80;--line:#5c2a40}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Madurai",system-ui,sans-serif;font-size:16px;line-height:1.5}
+.app{max-width:460px;margin:0 auto;padding:14px 16px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.brand{font-size:28px;font-weight:700;line-height:1;display:flex;align-items:flex-end}
+.brand svg{margin-left:1px;margin-bottom:2px}
+.lang{display:flex;border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.lang button{border:0;background:none;color:var(--mute);padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+.lang button.on{background:var(--pri);color:#fff}
+.hi{font-size:24px;font-weight:700;margin:4px 0 10px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px}
+.chips button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:5px 14px;font:inherit;font-size:14px;cursor:pointer}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px;scroll-margin-top:8px}
+h2{font-size:18px;margin:0 0 8px}
+.sub,.note{font-size:13px;color:var(--mute)}
+.dial{display:flex;align-items:center;gap:16px}
+.big{font-size:28px;font-weight:700;line-height:1.1}
+.pill{display:inline-block;padding:2px 12px;border-radius:99px;font-size:14px;font-weight:500;background:var(--soft);color:var(--pri)}
+label{display:block;font-size:13px;color:var(--mute);margin:10px 0 3px}
+input[type=text],input[type=date],input[type=tel],input[type=email]{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.dt{display:flex;gap:8px;align-items:stretch}
+.dt input[type=text]{flex:1;min-width:0;width:auto}
+.pk{position:relative;flex:none;width:48px;display:grid;place-items:center;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-size:20px;cursor:pointer}
+.pk input[type=date]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0}
+.opt{display:grid;gap:8px}
+.opt.c3{grid-template-columns:repeat(3,1fr)}.opt.c4{grid-template-columns:repeat(4,1fr)}.opt.c5{grid-template-columns:repeat(3,1fr)}
+.opt button,.mc button{border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:9px 4px;font:inherit;font-size:14px;cursor:pointer}
+.opt button.on,.mc button.on{border-color:var(--pri);background:var(--soft)}
+.mc{display:flex;flex-wrap:wrap;gap:8px}.mc button{padding:6px 12px;border-radius:99px}
+.cta{width:100%;border:0;background:var(--pri);color:#fff;border-radius:14px;padding:13px;font:inherit;font-weight:700;cursor:pointer;margin-top:12px;display:block;text-align:center;text-decoration:none}
+.cta.alt{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.timer{font-size:24px;font-weight:700}.timer.late{color:var(--bad)}
+.steps{margin:0;padding:0;list-style:none}
+.steps li{display:flex;gap:10px;margin-bottom:8px}
+.steps li:before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:var(--pri);margin-top:8px}
+.tag{font-size:13px;font-weight:700;color:var(--ok);margin-top:10px}.tag.x{color:var(--bad)}
+.alert{border:2px solid var(--bad);border-radius:12px;padding:10px;margin-top:10px;font-size:14px}
+.alert b{color:var(--bad)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stats div{background:var(--bg);border-radius:12px;padding:8px 2px}
+.stats b{display:block;font-size:22px}
+.h{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.h:last-child{border:0}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--pri);margin-right:6px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);font-size:15px}
+.kv span:first-child{color:var(--mute)}.kv span:last-child{text-align:right;word-break:break-word}
+.msg{background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:10px;font-size:14px;margin-top:10px}
+.sw{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+.sw input{width:22px;height:22px}
+details{border-bottom:1px solid var(--line);padding:8px 0}details:last-child{border:0}
+summary{cursor:pointer;font-weight:500}
+details p{margin:6px 0 0;font-size:14px;color:var(--mute)}
+.opt.c2{grid-template-columns:repeat(2,1fr)}
+.h span:last-child{text-align:right}
+.bub{padding:9px 12px;border-radius:14px;margin:6px 0;max-width:92%;font-size:15px;white-space:pre-wrap;word-break:break-word}
+.bub.u{background:var(--pri);color:#fff;margin-left:auto}
+.bub.a{background:var(--bg);border:1px solid var(--line)}
+#chLog{max-height:340px;overflow-y:auto;padding:2px}
+.sq{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.sq button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer;text-align:left}
+.cr{display:flex;gap:8px;margin-top:8px}
+.cr input{flex:1;min-width:0}
+.cr button{border:0;background:var(--pri);color:#fff;border-radius:10px;padding:0 16px;font:inherit;font-weight:700;cursor:pointer}
+.cmp{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.cmp th,.cmp td{border:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}
+.cmp th{background:var(--bg);font-weight:700}
+.pl{display:grid;gap:8px;margin-top:8px}
+.pl a{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;color:var(--ink);text-decoration:none;background:var(--bg);font-size:15px}
+.pl a span{color:var(--pri);font-size:13px;white-space:nowrap}
+.rec{background:var(--soft);border-radius:12px;padding:10px;font-size:14px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;max-width:88%;opacity:0;pointer-events:none;transition:opacity .2s;text-align:center;z-index:9}
+#toast.show{opacity:1}
+.hide{display:none}
+.sy{position:fixed;inset:0;z-index:8;background:var(--bg);overflow-y:auto;padding:0 14px calc(90px + env(safe-area-inset-bottom,0px));padding-top:env(safe-area-inset-top,0px)}
+.syh{position:sticky;top:0;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:12px 2px;font-weight:600;font-size:16px;z-index:1}.syh span{flex:1;text-align:center}
+.syh button{border:0;background:none;color:var(--ink);font-size:24px;cursor:pointer}
+.sys{background:var(--card);border-radius:18px;padding:14px;margin-bottom:12px;max-width:460px;margin-left:auto;margin-right:auto}
+.sys h3{margin:0 0 12px;font-size:15px;font-weight:700}
+.syg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 4px}
+.syg button{border:0;background:none;color:var(--ink);font:inherit;font-size:11.5px;line-height:1.2;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0}
+.syg i{font-style:normal;width:52px;height:52px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:26px;border:2.5px solid transparent}
+.syg button.on i{border-color:var(--pri)}.syg button.on{font-weight:700;color:var(--pri)}
+.sysv{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 35%)}
+.sysv button{display:block;width:100%;max-width:428px;margin:0 auto;border:0;background:linear-gradient(90deg,#ff8fb5,#ff4f86);color:#fff;border-radius:99px;padding:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer}
+#au{margin:-4px -16px 0}
+.hero{position:relative;overflow:hidden;background:linear-gradient(145deg,#d81b60,#ff6f9f);color:#fff;text-align:center;padding:30px 20px 64px;border-radius:0 0 36px 36px}
+.hero i{position:absolute;border-radius:50%;background:rgba(255,255,255,.13)}.b1{width:150px;height:150px;left:-40px;top:-50px}.b2{width:110px;height:110px;right:-25px;bottom:10px}
+.ht{font-size:34px;font-weight:700;line-height:1.1}.hs{opacity:.9;font-size:15px}
+.acard{background:var(--card);border:1px solid var(--line);border-radius:22px;margin:-40px 16px 0;padding:18px;position:relative;box-shadow:0 10px 30px rgba(216,27,96,.18)}
+.af{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--bg);border-radius:14px;padding:0 12px;margin-top:10px}
+.af:focus-within{border-color:var(--pri)}.af input{border:0;background:none;color:var(--ink);font:inherit;padding:12px 0;width:100%;outline:0}
+.al2{display:flex;justify-content:space-between;margin:6px 0 2px}.lk{border:0;background:none;color:var(--pri);font:inherit;font-size:14px;font-weight:500;cursor:pointer;padding:6px 2px}.lk.c{display:block;margin:10px auto 0}
+.or{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:13px;margin:14px 0 0}.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+.sys details{border-bottom:1px solid var(--line);padding:8px 0}.sys details:last-child{border:0}.sys details p{margin:6px 0 0;font-size:13.5px;color:var(--mute)}.sys details b{color:var(--ink)}
+
+/* v11 pro skin */
+:root{--bg:#fff6f8;--ink:#2b1220;--mute:#85606f;--pri:#c8174f;--soft:#fde6ed;--line:#f6d8e2;--onpri:#fff;--r:22px;--g:linear-gradient(135deg,#d81b60,#ff5f94);--sh:0 1px 2px rgba(120,20,60,.05),0 12px 28px -12px rgba(190,30,90,.22);--glow:rgba(255,143,181,.35);--disp:"Fraunces","Hind Madurai",Georgia,serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--onpri:#2a0f1a;--sh:0 12px 28px -14px rgba(0,0,0,.7);--glow:rgba(255,107,157,.14)}}
+:root[data-theme="dark"]{--onpri:#2a0f1a;--sh:0 12px 28px -14px rgba(0,0,0,.7);--glow:rgba(255,107,157,.14)}
+body{background:radial-gradient(800px 380px at 90% -60px,var(--glow),transparent 62%),radial-gradient(520px 320px at -10% 38%,var(--glow),transparent 62%),var(--bg);background-attachment:fixed;-webkit-font-smoothing:antialiased}
+.top{position:sticky;top:0;z-index:5;margin:0 -16px 12px;padding:10px 16px;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 80%,transparent)}
+.brand{font-family:var(--disp);font-size:30px;letter-spacing:-.5px}
+.lang{border:0;background:var(--card);box-shadow:var(--sh);padding:3px}.lang button{border-radius:99px;padding:5px 13px;transition:.2s}.lang button.on{background:var(--g);box-shadow:0 4px 10px -3px rgba(216,27,96,.5)}
+.hi{font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.5px;line-height:1.15;margin:10px 0 12px}
+.chips button{border:0;box-shadow:var(--sh);padding:7px 15px;font-weight:500;color:var(--mute);transition:.15s}.chips button:hover,.chips button:active{color:var(--pri);transform:translateY(-1px)}
+.card{border:0;border-radius:var(--r);padding:22px 18px 18px;box-shadow:var(--sh);position:relative;overflow:hidden;animation:rise .5s both}
+.card:before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:linear-gradient(90deg,var(--pri),#ff9ec0,transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h2{font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:-.2px;margin:0 0 10px}
+.big,.timer{font-family:var(--disp);font-size:34px;font-weight:700;letter-spacing:-1px;color:var(--pri)}.timer{font-size:30px}
+.pill{border:1px solid var(--line);font-weight:600;padding:3px 13px}
+label{font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+input[type=text],input[type=date],input[type=tel],input[type=email],.pk,.af{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding-top:11px;padding-bottom:11px;transition:.15s}
+.af{padding-top:0;padding-bottom:0}.pk{padding:0}
+input:focus,.af:focus-within{border-color:var(--pri);box-shadow:0 0 0 4px var(--soft);outline:0}
+.opt button,.mc button{border:1.5px solid var(--line);background:var(--card);border-radius:14px;font-weight:500;transition:.15s}
+.opt button.on,.mc button.on{border-color:var(--pri);background:var(--pri);color:var(--onpri);box-shadow:0 6px 14px -6px rgba(216,27,96,.6)}
+.cta{background:var(--g);border-radius:16px;padding:14px;letter-spacing:.2px;box-shadow:0 10px 20px -10px rgba(216,27,96,.7);transition:.15s}.cta:active{transform:scale(.98)}
+.cta.alt{background:var(--card);color:var(--pri);border:1.5px solid var(--line);box-shadow:none;font-weight:600}
+.stats div{background:var(--soft);border-radius:16px;padding:12px 2px}.stats b{font-family:var(--disp);font-size:26px;color:var(--pri)}
+.bub.u{background:var(--g);border-bottom-right-radius:4px}.bub.a{background:var(--soft);border:0;border-bottom-left-radius:4px}
+.msg{background:var(--soft);border:1px dashed var(--pri);border-radius:14px}
+.pl a{background:var(--card);border:1.5px solid var(--line);border-radius:14px;transition:.15s}.pl a:hover{border-color:var(--pri)}
+.rec{border-left:4px solid var(--pri);border-radius:6px 14px 14px 6px}
+.alert{border-width:1.5px;border-radius:14px;background:color-mix(in srgb,var(--bad) 8%,transparent)}
+.cmp th{background:var(--soft)}.sys{border-radius:22px;box-shadow:var(--sh)}
+.hero{background:radial-gradient(circle at 82% 0,#ff9ec0,transparent 55%),linear-gradient(150deg,#b3123f,#e8336f 62%,#ff7aa8)}
+.ht{font-family:var(--disp);font-size:42px;letter-spacing:-1px}
+.acard{border:0;box-shadow:var(--sh)}
+#toast{border-radius:99px;padding:10px 20px}
+@media (prefers-reduced-motion:reduce){.card{animation:none}*{transition:none!important}}
+.rep{background:var(--card);border:1.5px solid var(--line);border-left:4px solid var(--pri);border-radius:6px 16px 16px 6px;padding:11px 14px;margin-top:10px;font-size:14px}.rep .rh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:5px;font-size:12.5px;color:var(--mute)}.rep .rh b{color:var(--pri);font-size:14px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top"><div class="brand" id="logo"></div>
+<div class="lang" role="group" aria-label="Language"><button id="bEn">EN</button><button id="bTa">தமிழ்</button></div></div>
+
+<div id="au" class="hide"></div>
+<div id="ob" class="hide"><div class="card"><h2 id="obT"></h2><p class="note" id="obS"></p><div id="obF"></div><button class="cta" id="obGo"></button></div></div>
+
+<div id="home" class="hide">
+<div class="hi" id="hi"></div>
+<div class="chips" id="chips"></div>
+<div id="al"></div>
+
+<div class="card" id="s0"><div class="dial">
+<svg width="112" height="112" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="none" stroke="var(--line)" stroke-width="12"/><circle id="ring" cx="60" cy="60" r="50" fill="none" stroke="var(--pri)" stroke-width="12" stroke-linecap="round" transform="rotate(-90 60 60)" stroke-dasharray="314" stroke-dashoffset="314"/><text id="dayN" x="60" y="68" text-anchor="middle" font-size="26" font-weight="700" fill="var(--ink)">-</text></svg>
+<div><div class="sub" id="lNext"></div><div class="big" id="nextIn"></div><div class="sub" id="nextDate"></div><div style="margin-top:6px"><span class="pill" id="phase"></span></div></div></div>
+<button class="cta alt" id="startNow"></button><div id="cyc"></div></div>
+
+<div class="card" id="s1"><h2 id="ciT"></h2><div class="sub" id="ciSub"></div><div id="ciBody"></div></div>
+
+<div class="card" id="adv"><h2 id="adT"></h2><div id="adBody"></div></div>
+
+<div class="card" id="chat"><h2 id="chT"></h2><p class="note" id="chN"></p><div class="sq" id="chSq"></div><div id="chLog"></div><div class="cr"><input type="text" id="chIn"><button id="chGo"></button></div><p class="note" id="chD"></p></div>
+
+<div class="card" id="prod"><h2 id="pdT"></h2><div id="pdBody"></div></div>
+
+<div class="card" id="pad"><h2 id="hPad"></h2><div class="timer" id="tm"></div><div class="note" id="tmN"></div><button class="cta" id="chg"></button></div>
+
+<div class="card" id="s2"><h2 id="trT"></h2><div class="stats" id="stats"></div><h2 style="margin-top:16px" id="hisT"></h2><div id="his"></div><p class="note" id="trN"></p></div>
+
+<div class="card" id="s6"><h2 id="hiT2"></h2><div id="hb"></div></div>
+
+<div class="card" id="s3"><h2 id="hShare"></h2><p class="note" id="shN"></p><label for="who" id="lWho"></label><input id="who" type="text"><label id="lNo" for="whoNo"></label><input id="whoNo" type="tel" inputmode="numeric"><label id="lWhat"></label><div class="mc" id="shOpt"></div><div class="msg" id="msg"></div><a class="cta" id="wa" target="_blank" rel="noopener"></a><a class="cta alt" id="sms"></a><button class="cta alt" id="cp"></button><div class="sw"><span id="lAuto"></span><input type="checkbox" id="auto"></div><p class="note" id="shP"></p></div>
+
+<div class="card" id="s4"><h2 id="dT"></h2><div id="dBody"></div><button class="cta alt" id="dEdit"></button><button class="cta alt" id="dReset"></button><button class="cta alt" id="dOut"></button><div id="cpw"></div></div>
+
+<div class="card" id="s5"><h2 id="pT"></h2><div id="pBody"></div></div>
+</div>
+</div>
+<div class="sy hide" id="sy"></div>
+<div id="toast" role="status"></div>
+
+<script>
+var T={
+en:{obT:"Welcome to Thozhi",obS:"A few details to set things up. In this demo they stay on your phone.",lName:"Your name",lDob:"Date of birth",lFirst:"First period ever (optional)",lLast:"Last period started",lPhone:"Phone number",lEmail:"Email",lMed:"Any health issues? (tick all that apply)",lOther:"Anything else your doctor knows (optional)",lConsent:"I agree to the Privacy and care policy",bStart:"Start",bSave:"Save details",errReq:"Please fill name, date of birth, phone, email and last period date.",errPh:"Enter a valid 10 digit phone number.",errEm:"Enter a valid email.",errC:"Please accept the policy.",errDate:"Type dates as DD/MM/YYYY, or tap the calendar icon to pick one.",pick:"Pick from calendar",
+lIss:"Any other health issues right now?",iss:["Headache","Nausea","Dizziness","Back pain","Tiredness","Mood swings","Bloating","Loose motion","Fever"],lUse:"What are you using?",use:["Pad","Menstrual cup","Tampon","Cloth pad"],
+tIss:["Headache: drink water, rest in a quiet dark room, and do not skip meals.","Nausea: sip ginger tea and eat small light meals. See a doctor if you cannot keep fluids down.","Dizziness: sit or lie down, sip ORS and eat something. If it repeats or you faint, see a doctor.","Back pain: warm compress and gentle stretches like child's pose.","Tiredness: iron-rich food, 8 hours of sleep, short rests.","Mood swings: a short walk, music, talk to someone. Cut down tea and coffee.","Bloating: less salt, warm water, jeera or ginger water, light meals.","Loose motion: ORS, curd rice, banana. See a doctor if it lasts more than 2 days.","Fever: rest and fluids. If fever stays or comes with weakness, see a doctor."],
+tUse:["Pad: change every 4 to 6 hours. Wrap and bin it, never flush.","Menstrual cup: empty, wash with clean water and reinsert every 6 to 10 hours. Boil the cup after your period.","Tampon: change every 4 to 8 hours, never longer than 8. Use the lowest absorbency that works.","Cloth pad: change every 4 hours, wash with soap and dry fully in sunlight."],
+tamW:"Fever, dizziness or rash while using a tampon: remove it and see a doctor right away (toxic shock risk).",
+chT:"Ask Thozhi AI",chN:"Ask anything about periods, cramps, hygiene, pads, cups or food.",chPh:"Type your question",chSend:"Send",chStop:"Stop",chThink:"Thinking...",chSq:["Pad or cup, which is better for me?","How do I use a menstrual cup?","Why are my periods irregular?","What to eat for cramps?"],chD:"AI gives general information, not a diagnosis. For severe pain, very heavy bleeding or any worry, see a doctor.",chNA:"The AI chat works when this page is opened inside Claude (signed in). It is not available here.",chErr:{not_granted:"AI chat was not allowed. Reopen the page to allow it.",rate_limited:"Too many questions. Please try again in a little while.",session_expired:"Please sign in to Claude again.",d:"Could not answer right now. Please try again."},
+pdT:"What to use and where to buy",openL:"Open",
+rec:{n:"New to this? Start with pads, they are the easiest. A menstrual cup is a good option later: it lasts for years and costs less over time.",padH:"Heavy days: use XL or overnight pads and change every 3 hours. A cup holds more, so you can try one once you are comfortable.",padL:"Pads are fine for you. To save money and reduce waste, a menstrual cup can last for years. Start with a small size.",cup:"Cups suit long college days. Carry clean water or wipes, empty every 6 to 10 hours and keep a pad or liner as backup.",tam:"Keep tampon use under 8 hours, use the lowest absorbency that works and use a pad at night.",cloth:"Carry 2 spare cloth pads and a bag for used ones. Wash with soap and dry fully in sunlight."},
+cmp:{h:["","Pad","Cup","Tampon"],r:[["Change","4-6 h","6-10 h","4-8 h"],["Cost","Low each time","One-time, lasts years","Medium"],["Best for","Beginners, college, nights","Long days, travel, saving money","Sports, swimming"],["Note","Easiest to start","Needs practice, boil after period","Never over 8 h"]]},
+links:[["Sanitary pads (regular, XL, overnight)","https://www.amazon.in/s?k=sanitary+pads+ultra+thin+xl"],["Menstrual cup (small size to start)","https://www.amazon.in/s?k=menstrual+cup"],["Panty liners","https://www.amazon.in/s?k=panty+liners"],["Tampons","https://www.amazon.in/s?k=tampons"],["Hot water bag or heating pad","https://www.amazon.in/s?k=hot+water+bag+heating+pad"],["ORS powder","https://www.amazon.in/s?k=ors+electrolyte+powder"],["Disposal bags for used pads","https://www.amazon.in/s?k=sanitary+pad+disposal+bags"]],
+pdN:"These open shopping searches on Amazon.in. Pick trusted brands, check ratings and expiry dates. Not an endorsement. New to cups or tampons? Read the leaflet or ask a doctor.",
+med:["PCOD / PCOS","Thyroid","Anaemia","Diabetes","Heavy bleeding","Severe cramps","None"],
+hi:"Hi, ",nav:["Status","Check-in","Tips","Ask AI","Products","Track","Share","Details","Policy"],
+next:"Next period",inD:function(n){return n===0?"Today":n===1?"Tomorrow":n<0?-n+" days late":"In "+n+" days"},day:"Day",ph:["Period days","Mid-cycle","Pre-period"],startToday:"My period started today",started:"New cycle started. Check-ins are open.",
+ciT:"Daily check-in",ciDay:function(d,l,k){return"Day "+d+" of "+l+" · "+k+" saved"},ciOut:"Check-ins open for the first 5 days of your period. Tap 'My period started today' above when it begins.",lFlow:"How is your flow?",flow:["Light","Normal","Heavy"],lPain:"How is the pain?",pain:["None","Mild","Moderate","Severe"],lWhen:"When did you feel it? (pick all that apply)",when:["Morning","Afternoon","Evening","Night","All day"],ciSave:"Save check-in",ciUpd:"Update check-in",ciDone:"Saved. Your tracking is updated.",ciNeed:"Pick flow, pain and what you use first.",
+adT:"Tips",adNone:"Do today's check-in to get advice on what to do and what to eat.",adBased:"Based on your check-in of ",
+sFlow:["Light flow: a thin pad is fine. Change every 6 hours.","Medium flow: change every 4 hours.","Heavy flow: change every 3 hours, carry 3 extra pads, sip ORS or lemon-salt water."],
+sPain:["No pain: stay active, a slow walk is good.","Mild pain: warm water bag on lower belly, ginger tea, light stretching.","Medium pain: warm bag, rest with legs up, sip warm water. Ask a doctor or pharmacist about a safe pain reliever.","Severe pain: lie down, warm compress, tell someone you trust now. Please see a doctor soon."],
+eatH:"Eat",avoidH:"Avoid",eF:[["Ragi kanji","Dates"],["Spinach or murungai keerai","Ragi kanji","Egg, dal or sundal"],["Beetroot, dates, ellu urundai","Murungai keerai","Amla or lemon with meals (vitamin C helps iron)","Egg, fish, dal"]],eP:["Ginger or tulsi tea","Banana","Warm soup"],av:["Too much tea or coffee","Salty chips and pickles","Ice-cold drinks","Skipping meals"],
+docT:"Please see a doctor",docM:"Heavy flow or severe pain in 2 or more of your last 3 check-ins needs a doctor's advice. Visit a doctor or clinic soon.",anM:"You noted anaemia. Heavy flow can make it worse, so see your doctor soon.",pcM:"With PCOD/PCOS, cycles can vary. Keep logging and show this to your doctor.",
+hPad:"Change reminder",due:function(t){return"Next change in "+t},late:function(t){return"Change now! "+t+" overdue"},none:"Tap below when you start a new one",tmN:function(h){return"Every "+h+" hours for your flow and what you use."},chg:"I changed or emptied it",chgd:"Logged. Next alert set.",alert:"Time to change or empty it!",
+trT:"Your tracking",trCycles:"Cycles tracked",trAvg:"Avg cycle (days)",trLen:"Period (days)",hisT:"Check-in history",hisE:"No check-ins yet.",trN:"Every daily check-in is added here and used for your advice.",
+hShare:"Tell someone you trust",shN:"Your mom, sister, friend or partner can know your next date and support you. You choose who. Flow and pain notes are never shared.",lWho:"Their name",msg:function(n,d){return"Hi "+(n||"")+", my next period is expected around "+d+". I may feel tired and need extra rest, warm food and a little support that week. Please keep it between us. Thanks! (Sent from Thozhi)"},wa:"Send on WhatsApp",cp:"Copy message",copied:"Message copied",lAuto:"Auto-remind them 2 days before",shP:"Demo: the real app sends the reminder automatically and only with your permission.",autoOn:"Auto-reminder on (demo)",
+dT:"Your details",dName:"Name",dAge:"Age",dPhone:"Phone",dEmail:"Email",dHealth:"Health",dFirst:"First period",yrs:" years",dEdit:"Edit details",dReset:"Reset all data",dReset2:"Tap again to delete everything",
+pT:"Privacy and care policy",pol:[["What we collect","Name, date of birth, phone, email, health issues and your daily check-ins."],["Why","Only to predict your cycle, give advice and send your alerts."],["Who sees it","Only you. Your next date goes to a close person only when you tap Send. Flow and pain notes are never shared."],["Where it is stored","In this demo, on your phone only. A real app would use encrypted storage."],["Not a doctor","Thozhi gives general care tips, not a diagnosis. For severe pain or an emergency, see a doctor."],["Your control","Edit or delete everything any time from Your details."]]},
+ta:{obT:"தோழிக்கு வரவேற்கிறோம்",obS:"தொடங்க சில விவரங்கள். இந்த டெமோவில் அவை உங்கள் போனிலேயே இருக்கும்.",lName:"உங்கள் பெயர்",lDob:"பிறந்த தேதி",lFirst:"முதல் மாதவிடாய் தேதி (விருப்பம்)",lLast:"கடைசி மாதவிடாய் தொடங்கிய தேதி",lPhone:"தொலைபேசி எண்",lEmail:"மின்னஞ்சல்",lMed:"ஏதேனும் உடல்நல பிரச்சனை? (பொருந்துவதை தேர்ந்தெடுங்கள்)",lOther:"மருத்துவருக்குத் தெரிந்த வேறு விவரம் (விருப்பம்)",lConsent:"தனியுரிமை மற்றும் பராமரிப்புக் கொள்கையை ஏற்கிறேன்",bStart:"தொடங்கு",bSave:"விவரங்களைச் சேமி",errReq:"பெயர், பிறந்த தேதி, தொலைபேசி, மின்னஞ்சல், கடைசி மாதவிடாய் தேதியை நிரப்புங்கள்.",errPh:"சரியான 10 இலக்க எண்ணை உள்ளிடுங்கள்.",errEm:"சரியான மின்னஞ்சலை உள்ளிடுங்கள்.",errC:"கொள்கையை ஏற்கவும்.",errDate:"தேதியை DD/MM/YYYY என டைப் செய்யுங்கள், அல்லது நாட்காட்டி ஐகானைத் தட்டித் தேர்ந்தெடுங்கள்.",pick:"நாட்காட்டியில் தேர்வு செய்",
+lIss:"இப்போது வேறு உடல்நல பிரச்சனை ஏதாவது?",iss:["தலைவலி","குமட்டல்","தலைசுற்றல்","முதுகுவலி","சோர்வு","மனநிலை மாற்றம்","வயிறு உப்புசம்","வயிற்றுப்போக்கு","காய்ச்சல்"],lUse:"என்ன பயன்படுத்துகிறீர்கள்?",use:["நாப்கின்","மென்ஸ்ட்ரூவல் கப்","டாம்பன்","துணி நாப்கின்"],
+tIss:["தலைவலி: தண்ணீர் குடியுங்கள், அமைதியான இருட்டான அறையில் ஓய்வெடுங்கள், உணவைத் தவிர்க்காதீர்கள்.","குமட்டல்: இஞ்சி டீ குடியுங்கள், சிறிய இலகுவான உணவு சாப்பிடுங்கள். திரவம் தங்கவில்லை என்றால் மருத்துவரைப் பாருங்கள்.","தலைசுற்றல்: உட்காருங்கள் அல்லது படுத்துக்கொள்ளுங்கள், ORS குடியுங்கள், ஏதாவது சாப்பிடுங்கள். மீண்டும் வந்தால் அல்லது மயங்கினால் மருத்துவரைப் பாருங்கள்.","முதுகுவலி: வெந்நீர் ஒத்தடம், சிறிய நீட்சி பயிற்சிகள்.","சோர்வு: இரும்புச்சத்து உணவு, 8 மணிநேர தூக்கம், சிறிய ஓய்வு.","மனநிலை மாற்றம்: சிறிய நடை, பாடல் கேளுங்கள், நம்பிக்கையானவரிடம் பேசுங்கள். டீ, காபியைக் குறையுங்கள்.","வயிறு உப்புசம்: உப்பு குறைவு, சூடான தண்ணீர், சீரகம் அல்லது இஞ்சி தண்ணீர், இலகுவான உணவு.","வயிற்றுப்போக்கு: ORS, தயிர் சாதம், வாழைப்பழம். 2 நாட்களுக்கு மேல் நீடித்தால் மருத்துவரைப் பாருங்கள்.","காய்ச்சல்: ஓய்வு, திரவங்கள். காய்ச்சல் நீடித்தால் அல்லது பலவீனம் இருந்தால் மருத்துவரைப் பாருங்கள்."],
+tUse:["நாப்கின்: 4 முதல் 6 மணிநேரத்திற்கு ஒருமுறை மாற்றுங்கள். சுற்றி குப்பைத் தொட்டியில் போடுங்கள், கழிவறையில் போடாதீர்கள்.","மென்ஸ்ட்ரூவல் கப்: 6 முதல் 10 மணிநேரத்திற்கு ஒருமுறை காலி செய்து, சுத்தமான தண்ணீரில் கழுவி மீண்டும் வையுங்கள். மாதவிடாய் முடிந்ததும் கப்பை கொதிக்க வையுங்கள்.","டாம்பன்: 4 முதல் 8 மணிநேரத்திற்கு ஒருமுறை மாற்றுங்கள், 8 மணிநேரத்திற்கு மேல் வேண்டாம். தேவைக்கு குறைந்த உறிஞ்சும் திறன் கொண்டதைப் பயன்படுத்துங்கள்.","துணி நாப்கின்: 4 மணிநேரத்திற்கு ஒருமுறை மாற்றுங்கள், சோப்பு போட்டு துவைத்து வெயிலில் நன்கு காயவையுங்கள்."],
+tamW:"டாம்பன் பயன்படுத்தும்போது காய்ச்சல், தலைசுற்றல் அல்லது சொறி வந்தால்: உடனே அதை எடுத்துவிட்டு மருத்துவரைப் பாருங்கள் (டாக்ஸிக் ஷாக் அபாயம்).",
+chT:"தோழி AI-யிடம் கேளுங்கள்",chN:"மாதவிடாய், வலி, சுகாதாரம், நாப்கின், கப், உணவு பற்றி எதையும் கேளுங்கள்.",chPh:"உங்கள் கேள்வியை டைப் செய்யுங்கள்",chSend:"அனுப்பு",chStop:"நிறுத்து",chThink:"யோசிக்கிறேன்...",chSq:["எனக்கு நாப்கின் நல்லதா, கப் நல்லதா?","மென்ஸ்ட்ரூவல் கப்பை எப்படி பயன்படுத்துவது?","என் மாதவிடாய் ஏன் ஒழுங்கற்றதாக இருக்கிறது?","வயிற்றுவலிக்கு என்ன சாப்பிடலாம்?"],chD:"AI பொதுவான தகவலை மட்டுமே தரும், நோய் கண்டறிதல் அல்ல. கடும் வலி, மிக அதிக ரத்தப்போக்கு அல்லது கவலை இருந்தால் மருத்துவரைப் பாருங்கள்.",chNA:"இந்த AI அரட்டை Claude-க்குள் (உள்நுழைந்து) பக்கத்தைத் திறந்தால் மட்டுமே வேலை செய்யும். இங்கே கிடைக்கவில்லை.",chErr:{not_granted:"AI அரட்டைக்கு அனுமதி வழங்கப்படவில்லை. பக்கத்தை மீண்டும் திறந்து அனுமதியுங்கள்.",rate_limited:"அதிக கேள்விகள். சிறிது நேரம் கழித்து முயற்சிக்கவும்.",session_expired:"Claude-ல் மீண்டும் உள்நுழையவும்.",d:"இப்போது பதில் தர முடியவில்லை. மீண்டும் முயற்சிக்கவும்."},
+pdT:"என்ன பயன்படுத்தலாம், எங்கே வாங்கலாம்",openL:"திற",
+rec:{n:"புதியவரா? நாப்கினில் தொடங்குங்கள், அது எளிது. பிறகு மென்ஸ்ட்ரூவல் கப்பை முயற்சிக்கலாம்: பல ஆண்டுகள் பயன்படும், நீண்ட காலத்தில் செலவு குறைவு.",padH:"அதிக போக்கு நாட்களில் XL அல்லது இரவு நாப்கின் பயன்படுத்துங்கள், 3 மணிநேரத்திற்கு ஒருமுறை மாற்றுங்கள். கப் அதிகம் தாங்கும், பழகியபின் முயற்சிக்கலாம்.",padL:"உங்களுக்கு நாப்கின் போதும். பணம் சேமிக்கவும் குப்பையைக் குறைக்கவும் விரும்பினால் மென்ஸ்ட்ரூவல் கப் பல ஆண்டுகள் பயன்படும். சிறிய அளவில் தொடங்குங்கள்.",cup:"நீண்ட கல்லூரி நாட்களுக்கு கப் ஏற்றது. சுத்தமான தண்ணீர் அல்லது வைப்ஸ் எடுத்துச் செல்லுங்கள். 6 முதல் 10 மணிநேரத்திற்கு ஒருமுறை காலி செய்யுங்கள், உதவிக்கு ஒரு நாப்கின் வைத்திருங்கள்.",tam:"டாம்பனை 8 மணிநேரத்திற்குள் மாற்றுங்கள், குறைந்த உறிஞ்சும் திறன் கொண்டதைப் பயன்படுத்துங்கள், இரவில் நாப்கின் பயன்படுத்துங்கள்.",cloth:"2 உதிரி துணி நாப்கின்களையும் பயன்படுத்தியதை வைக்கும் பையையும் எடுத்துச் செல்லுங்கள். சோப்பு போட்டுத் துவைத்து வெயிலில் நன்கு காயவையுங்கள்."},
+cmp:{h:["","நாப்கின்","கப்","டாம்பன்"],r:[["மாற்ற","4-6 மணி","6-10 மணி","4-8 மணி"],["செலவு","ஒரு முறைக்கு குறைவு","ஒருமுறை செலவு, பல ஆண்டுகள்","நடுத்தரம்"],["யாருக்கு","தொடக்கம், கல்லூரி, இரவு","நீண்ட நாள், பயணம், பணம் சேமிக்க","விளையாட்டு, நீச்சல்"],["குறிப்பு","தொடங்க எளிது","பழக்கம் தேவை, மாதவிடாய்க்குப் பின் கொதிக்கவைக்க","8 மணிக்கு மேல் வேண்டாம்"]]},
+links:[["நாப்கின் (சாதாரண, XL, இரவு)","https://www.amazon.in/s?k=sanitary+pads+ultra+thin+xl"],["மென்ஸ்ட்ரூவல் கப் (தொடக்கத்திற்கு சிறிய அளவு)","https://www.amazon.in/s?k=menstrual+cup"],["பேன்டி லைனர்","https://www.amazon.in/s?k=panty+liners"],["டாம்பன்","https://www.amazon.in/s?k=tampons"],["வெந்நீர் பை / ஹீட்டிங் பேட்","https://www.amazon.in/s?k=hot+water+bag+heating+pad"],["ORS பொடி","https://www.amazon.in/s?k=ors+electrolyte+powder"],["நாப்கின் குப்பைப் பைகள்","https://www.amazon.in/s?k=sanitary+pad+disposal+bags"]],
+pdN:"இவை Amazon.in ஷாப்பிங் தேடல் பக்கங்களைத் திறக்கும். நம்பகமான பிராண்ட், மதிப்பீடு, காலாவதி தேதியைப் பாருங்கள். இது பரிந்துரை அல்ல. கப் அல்லது டாம்பனுக்குப் புதியவரா? கையேட்டைப் படியுங்கள் அல்லது மருத்துவரிடம் கேளுங்கள்.",
+med:["PCOD / PCOS","தைராய்டு","இரத்தசோகை","சர்க்கரை நோய்","அதிக ரத்தப்போக்கு","கடும் வயிற்றுவலி","எதுவுமில்லை"],
+hi:"வணக்கம், ",nav:["நிலை","தினசரி பதிவு","குறிப்புகள்","AI உதவி","பொருட்கள்","டிராக்","பகிர்","விவரங்கள்","கொள்கை"],
+next:"அடுத்த மாதவிடாய்",inD:function(n){return n===0?"இன்று":n===1?"நாளை":n<0?-n+" நாட்கள் தாமதம்":n+" நாட்களில்"},day:"நாள்",ph:["மாதவிடாய் நாட்கள்","நடு சுழற்சி","மாதவிடாய்க்கு முன்"],startToday:"இன்று மாதவிடாய் தொடங்கியது",started:"புதிய சுழற்சி தொடங்கியது. தினசரி பதிவு திறந்துள்ளது.",
+ciT:"தினசரி பதிவு",ciDay:function(d,l,k){return"நாள் "+d+" / "+l+" · "+k+" பதிவு சேமிக்கப்பட்டது"},ciOut:"மாதவிடாயின் முதல் 5 நாட்களில் பதிவு திறக்கும். தொடங்கியதும் மேலே 'இன்று மாதவிடாய் தொடங்கியது' தட்டுங்கள்.",lFlow:"ரத்தப்போக்கு எப்படி?",flow:["குறைவு","இயல்பு","அதிகம்"],lPain:"வலி எப்படி?",pain:["இல்லை","லேசு","மிதம்","கடுமை"],lWhen:"எப்போது வலித்தது? (பொருந்துவதை எல்லாம் தேர்வு செய்யுங்கள்)",when:["காலை","மதியம்","மாலை","இரவு","நாள் முழுவதும்"],ciSave:"பதிவைச் சேமி",ciUpd:"பதிவைப் புதுப்பி",ciDone:"சேமிக்கப்பட்டது. டிராக்கிங் புதுப்பிக்கப்பட்டது.",ciNeed:"முதலில் ரத்தப்போக்கு, வலி, பயன்படுத்துவதைத் தேர்ந்தெடுங்கள்.",
+adT:"குறிப்புகள்",adNone:"என்ன செய்ய, என்ன சாப்பிட ஆலோசனை பெற இன்றைய பதிவைச் செய்யுங்கள்.",adBased:"பதிவு தேதி: ",
+sFlow:["குறைவான போக்கு: மெல்லிய நாப்கின் போதும். 6 மணிநேரத்திற்கு ஒருமுறை மாற்றுங்கள்.","நடுத்தர போக்கு: 4 மணிநேரத்திற்கு ஒருமுறை மாற்றுங்கள்.","அதிக போக்கு: 3 மணிநேரத்திற்கு ஒருமுறை மாற்றுங்கள், 3 உதிரி நாப்கின் வையுங்கள், ORS அல்லது எலுமிச்சை உப்பு தண்ணீர் குடியுங்கள்."],
+sPain:["வலி இல்லை: சுறுசுறுப்பாக இருங்கள், மெதுவான நடை நல்லது.","லேசான வலி: அடிவயிற்றில் வெந்நீர் பை, இஞ்சி டீ, லேசான நீட்சி பயிற்சி.","நடுத்தர வலி: வெந்நீர் பை, கால்களை உயர்த்தி ஓய்வு, சூடான தண்ணீர் குடியுங்கள். பாதுகாப்பான வலி நிவாரணி பற்றி மருத்துவர் அல்லது மருந்தாளரிடம் கேளுங்கள்.","கடுமையான வலி: படுத்து ஓய்வெடுங்கள், வெந்நீர் ஒத்தடம், நம்பிக்கையானவரிடம் உடனே சொல்லுங்கள். சீக்கிரம் மருத்துவரைப் பாருங்கள்."],
+eatH:"சாப்பிடுங்கள்",avoidH:"தவிர்க்கவும்",eF:[["ராகி கஞ்சி","பேரீச்சை"],["கீரை அல்லது முருங்கைக்கீரை","ராகி கஞ்சி","முட்டை, பருப்பு அல்லது சுண்டல்"],["பீட்ரூட், பேரீச்சை, எள்ளுருண்டை","முருங்கைக்கீரை","உணவுடன் நெல்லிக்காய் அல்லது எலுமிச்சை (வைட்டமின் C இரும்பை உறிஞ்ச உதவும்)","முட்டை, மீன், பருப்பு"]],eP:["இஞ்சி அல்லது துளசி டீ","வாழைப்பழம்","சூடான சூப்"],av:["அதிக டீ, காபி","உப்பு சிப்ஸ், ஊறுகாய்","ஐஸ் குளிர் பானங்கள்","உணவைத் தவிர்த்தல்"],
+docT:"மருத்துவரைப் பாருங்கள்",docM:"கடைசி 3 பதிவுகளில் 2 அல்லது அதற்கு மேல் அதிக போக்கு அல்லது கடும் வலி இருந்தால் மருத்துவ ஆலோசனை தேவை. சீக்கிரம் மருத்துவர் அல்லது கிளினிக்கை அணுகுங்கள்.",anM:"நீங்கள் இரத்தசோகை என குறிப்பிட்டுள்ளீர்கள். அதிக போக்கு அதை மோசமாக்கும், சீக்கிரம் மருத்துவரைப் பாருங்கள்.",pcM:"PCOD/PCOS இருந்தால் சுழற்சி மாறுபடலாம். தொடர்ந்து பதிவு செய்து மருத்துவரிடம் காட்டுங்கள்.",
+hPad:"மாற்ற நினைவூட்டல்",due:function(t){return"அடுத்த மாற்றம்: "+t},late:function(t){return"இப்போதே மாற்றுங்கள்! "+t+" தாமதம்"},none:"புதியதைப் பயன்படுத்தத் தொடங்கியதும் கீழே தட்டுங்கள்",tmN:function(h){return"உங்கள் போக்கு மற்றும் பயன்படுத்துவதற்கு "+h+" மணிநேரத்திற்கு ஒருமுறை."},chg:"மாற்றிவிட்டேன் / காலி செய்தேன்",chgd:"பதிவானது. அடுத்த அலர்ட் செட் ஆனது.",alert:"மாற்ற அல்லது காலி செய்ய நேரம்!",
+trT:"உங்கள் டிராக்கிங்",trCycles:"பதிவான சுழற்சிகள்",trAvg:"சராசரி சுழற்சி (நாள்)",trLen:"மாதவிடாய் (நாள்)",hisT:"பதிவு வரலாறு",hisE:"இன்னும் பதிவுகள் இல்லை.",trN:"ஒவ்வொரு தினசரி பதிவும் இங்கே சேரும், ஆலோசனைக்குப் பயன்படும்.",
+hShare:"நம்பிக்கையானவரிடம் சொல்லுங்கள்",shN:"அம்மா, அக்கா, தோழி அல்லது துணை உங்கள் அடுத்த தேதியை அறிந்து உதவலாம். யாருக்கு என்பது உங்கள் முடிவு. ரத்தப்போக்கு, வலி விவரம் ஒருபோதும் பகிரப்படாது.",lWho:"அவர் பெயர்",msg:function(n,d){return"ஹாய் "+(n||"")+", என் அடுத்த மாதவிடாய் "+d+" அன்று எதிர்பார்க்கப்படுகிறது. அந்த வாரம் சோர்வாக இருக்கலாம், கூடுதல் ஓய்வு, சூடான உணவு, சிறிய ஆதரவு தேவைப்படும். இது நமக்குள் இருக்கட்டும். நன்றி! (தோழி ஆப்பிலிருந்து)"},wa:"WhatsApp-ல் அனுப்பு",cp:"செய்தியை நகலெடு",copied:"செய்தி நகலெடுக்கப்பட்டது",lAuto:"2 நாட்கள் முன்பு தானாக நினைவூட்டு",shP:"டெமோ: உண்மையான ஆப் உங்கள் அனுமதியுடன் தானாக நினைவூட்டும்.",autoOn:"தானியங்கி நினைவூட்டல் ஆன் (டெமோ)",
+dT:"உங்கள் விவரங்கள்",dName:"பெயர்",dAge:"வயது",dPhone:"தொலைபேசி",dEmail:"மின்னஞ்சல்",dHealth:"உடல்நலம்",dFirst:"முதல் மாதவிடாய்",yrs:" வயது",dEdit:"விவரங்களை மாற்று",dReset:"எல்லா தகவலையும் அழி",dReset2:"எல்லாவற்றையும் அழிக்க மீண்டும் தட்டுங்கள்",
+pT:"தனியுரிமை மற்றும் பராமரிப்புக் கொள்கை",pol:[["என்ன சேகரிக்கிறோம்","பெயர், பிறந்த தேதி, தொலைபேசி, மின்னஞ்சல், உடல்நல பிரச்சனைகள், தினசரி பதிவுகள்."],["ஏன்","உங்கள் சுழற்சியைக் கணிக்க, ஆலோசனை தர, அலர்ட் அனுப்ப மட்டுமே."],["யார் பார்க்கலாம்","நீங்கள் மட்டுமே. நீங்கள் 'அனுப்பு' தட்டினால் மட்டுமே அடுத்த தேதி நம்பிக்கையானவருக்கு செல்லும். ரத்தப்போக்கு, வலி விவரம் பகிரப்படாது."],["எங்கே சேமிக்கப்படும்","இந்த டெமோவில் உங்கள் போனில் மட்டும். உண்மையான ஆப் குறியாக்கப்பட்ட சேமிப்பைப் பயன்படுத்தும்."],["நாங்கள் மருத்துவர் அல்ல","தோழி பொதுவான பராமரிப்பு குறிப்புகளை மட்டுமே தரும், நோய் கண்டறிதல் அல்ல. கடும் வலி அல்லது அவசரத்தில் மருத்துவரைப் பாருங்கள்."],["உங்கள் கட்டுப்பாடு","உங்கள் விவரங்கள் பகுதியில் எப்போது வேண்டுமானாலும் மாற்றலாம், அழிக்கலாம்."]]}};
+var L="en",$=function(i){return document.getElementById(i)},warned=false,rst=false,editing=false;
+var S={prof:null,cycles:[],len:5,logs:{},padAt:0,who:"",auto:false};
+var CI=newCI(),OB={med:[]};
+try{var sv=JSON.parse(localStorage.getItem("thozhi2")||"null");if(sv){for(var k in sv)S[k]=sv[k];L=sv.L||"en"}}catch(e){}
+function save(){try{S.L=L;localStorage.setItem("thozhi2",JSON.stringify(S))}catch(e){}}
+var NAVID=["s0","s1","adv","chat","prod","s2","s3","s4","s5"],chT=[],chBusy=false,chCtl=null,smp;
+function lastU(){var ks=Object.keys(S.logs).sort();for(var i=ks.length-1;i>=0;i--){var u=S.logs[ks[i]].u;if(u!==undefined&&u>-1)return u}return-1}
+function newCI(){return{f:-1,p:-1,w:[],h:[],u:lastU()}}
+function norm(g){return{f:g.f,p:g.p,w:Array.isArray(g.w)?g.w.slice():(g.w>-1?[g.w]:[]),h:(g.h||[]).slice(),u:g.u===undefined?-1:g.u}}
+function tog(a,i,all){var x=a.indexOf(i);if(all!==undefined){if(i===all){a.length=0;if(x<0)a.push(i)}else{var y=a.indexOf(all);if(y>-1)a.splice(y,1);x=a.indexOf(i);if(x>-1)a.splice(x,1);else a.push(i)}}else{if(x>-1)a.splice(x,1);else a.push(i)}render()}
+function multi(id,arr,sel,fn){var el=$(id);el.className="mc";el.innerHTML=arr.map(function(x,i){return'<button type="button" class="'+(sel.indexOf(i)>-1?"on":"")+'">'+x+"</button>"}).join("");Array.prototype.forEach.call(el.children,function(b,i){b.onclick=function(){fn(i)}})}
+function ymd(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function pd(s){var a=s.split("-");return new Date(+a[0],+a[1]-1,+a[2])}
+function today(){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
+function dd(a,b){return Math.round((a-b)/864e5)}
+function fmt(d){return d.toLocaleDateString(L==="ta"?"ta-IN":"en-IN",{day:"numeric",month:"short"})}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function toast(m){var t=$("toast");t.textContent=m;t.className="show";setTimeout(function(){t.className=""},2800)}
+function li(a){return a.map(function(x){return"<li>"+x+"</li>"}).join("")}
+function logo(){var i='<svg width="12" height="28" viewBox="0 0 14 32" aria-hidden="true"><path d="M7 0C7 0 .5 7 .5 11a6.5 6.5 0 0013 0C13.5 7 7 0 7 0z" fill="var(--pri)"/><rect x="4" y="17" width="6" height="15" rx="3" fill="var(--ink)"/></svg>';return L==="ta"?"தோழ"+i:"Thozh"+i}
+function cy(){var a=S.cycles.slice().sort(),d=[];for(var i=1;i<a.length;i++){var g=dd(pd(a[i]),pd(a[i-1]));if(g>=18&&g<=60)d.push(g)}
+return{a:a,n:a.length,avg:d.length?Math.round(d.reduce(function(x,y){return x+y})/d.length):28}}
+function state(){var c=cy(),td=today(),len=+S.len||5,o={c:c,len:len,ph:1,day:0,left:null,nx:null,inP:false};
+if(!c.n)return o;var l=pd(c.a[c.n-1]),since=dd(td,l);if(since<0)return o;
+var nx=new Date(l.getTime());nx.setDate(l.getDate()+c.avg);o.nx=nx;o.left=dd(nx,td);o.day=since+1;o.last=l;
+o.inP=o.day<=len;o.ph=o.inP?0:(o.left<=5?2:1);return o}
+function gap(){var l=S.logs[ymd(today())],f=l&&l.f>-1?l.f:1,u=l&&l.u!==undefined&&l.u>-1?l.u:lastU(),H={0:[6,4,3,2],1:[10,8,6,5],2:[8,6,4,3],3:[6,4,3,2]};return H[u>-1?u:0][f]}
+function tick(){var t=T[L],tm=$("tm");
+if(!S.padAt){tm.textContent="--";tm.className="timer";$("tmN").textContent=t.none;return}
+var ms=S.padAt+gap()*36e5-Date.now(),a=Math.abs(ms),s=Math.floor(a/36e5)+"h "+Math.floor(a%36e5/6e4)+"m";
+if(ms>0){tm.textContent=t.due(s);tm.className="timer";warned=false}
+else{tm.textContent=t.late(s);tm.className="timer late";if(!warned){warned=true;toast(t.alert);try{navigator.vibrate&&navigator.vibrate([300,150,300])}catch(e){}}}
+$("tmN").textContent=t.tmN(gap())}
+function chipRow(id,arr,cur,cls,fn){var el=$(id);el.className="opt "+cls;el.innerHTML=arr.map(function(x,i){return'<button type="button" class="'+(cur===i?"on":"")+'">'+x+"</button>"}).join("");Array.prototype.forEach.call(el.children,function(b,i){b.onclick=function(){fn(i)}})}
+// onboarding
+function dmy(s){if(!s)return"";var a=s.split("-");return a[2]+"/"+a[1]+"/"+a[0]}
+function parseDMY(s){var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s.trim());if(!m)return"";var d=+m[1],mo=+m[2],y=+m[3],x=new Date(y,mo-1,d);if(x.getFullYear()!==y||x.getMonth()!==mo-1||x.getDate()!==d||y<1900||x>today())return"";return y+"-"+m[2]+"-"+m[1]}
+function grab(){OB.d=OB.d||{};if(!$("o_name"))return;["name","dob","first","last","phone","email","other","cname","cn","pw"].forEach(function(k){if($("o_"+k))OB.d[k]=$("o_"+k).value});OB.d.ok=$("o_ok").checked}
+function renderOb(){grab();var dv=function(k,i){return OB.d[k]!==undefined?OB.d[k]:i},t=T[L],p=S.prof||{},F=[["name","text","lName"],["dob","date","lDob"],["first","date","lFirst"],["last","date","lLast"],["phone","tel","lPhone"],["email","email","lEmail"]],h="";
+var cyc=cy();
+F.forEach(function(f){var k=f[0],isD=f[1]==="date",init=k==="last"?(cyc.n?dmy(cyc.a[cyc.n-1]):""):isD?dmy(p[k]):(p[k]||""),v=esc(dv(k,init));
+if(isD)h+='<label for="o_'+k+'">'+t[f[2]]+'</label><div class="dt"><input id="o_'+k+'" type="text" inputmode="numeric" maxlength="10" placeholder="DD/MM/YYYY" autocomplete="off" value="'+v+'"><div class="pk" title="'+t.pick+'">📅<input type="date" id="p_'+k+'" aria-label="'+t.pick+'" max="'+ymd(today())+'"></div></div>';
+else h+='<label for="o_'+k+'">'+t[f[2]]+'</label><input id="o_'+k+'" type="'+f[1]+'" value="'+v+'">'});
+h+='<label>'+t.lMed+'</label><div class="mc" id="o_med">'+t.med.map(function(m,i){return'<button type="button" class="'+(OB.med.indexOf(i)>-1?"on":"")+'" data-i="'+i+'">'+m+"</button>"}).join("")+"</div>";
+h+='<label for="o_other">'+t.lOther+'</label><input id="o_other" type="text" value="'+esc(dv("other",p.other||""))+'"><div class="sw"><span>'+t.lConsent+'</span><input type="checkbox" id="o_ok" '+((OB.d.ok!==undefined?OB.d.ok:!!S.prof)?"checked":"")+"></div>";
+$("obF").innerHTML=h;$("obT").textContent=t.obT;$("obS").textContent=t.obS;$("obGo").textContent=S.prof?t.bSave:t.bStart;
+["dob","first","last"].forEach(function(k){var tx=$("o_"+k),pk=$("p_"+k);tx.oninput=function(){var d=tx.value.replace(/\D/g,"").slice(0,8),o=d.slice(0,2);if(d.length>2)o+="/"+d.slice(2,4);if(d.length>4)o+="/"+d.slice(4);tx.value=o};pk.onchange=function(){tx.value=dmy(pk.value)}});
+Array.prototype.forEach.call($("o_med").children,function(b){b.onclick=function(){var i=+b.dataset.i,x=OB.med.indexOf(i);if(i===6)OB.med=[6];else{OB.med=OB.med.filter(function(v){return v!==6});if(x>-1)OB.med.splice(OB.med.indexOf(i),1);else OB.med.push(i)}renderOb()}})}
+$("obGo").onclick=function(){var t=T[L],v=function(i){return $("o_"+i).value.trim()},D=function(i){return parseDMY(v(i))};
+if(!v("name")||!v("dob")||!v("phone")||!v("email")||!v("last")||!OB.med.length){toast(t.errReq);return}
+if(!D("dob")||!D("last")||(v("first")&&!D("first"))){toast(t.errDate);return}
+if(!/^\d{10}$/.test(v("phone").replace(/\D/g,"").slice(-10))||v("phone").replace(/\D/g,"").length<10){toast(t.errPh);return}
+if(!/^\S+@\S+\.\S+$/.test(v("email"))){toast(t.errEm);return}
+if(!$("o_ok").checked){toast(t.errC);return}
+S.prof={name:v("name"),dob:D("dob"),first:D("first"),phone:v("phone"),email:v("email"),med:OB.med.slice(),other:v("other")};
+var l=D("last");if(S.cycles.indexOf(l)<0)S.cycles.push(l);editing=false;save();show()};
+// home
+function adviceHTML(){var t=T[L],ks=Object.keys(S.logs).sort();if(!ks.length)return'<p class="note">'+t.adNone+"</p>";
+var k=ks[ks.length-1],lg=S.logs[k],h='<p class="note">'+t.adBased+fmt(pd(k))+"</p>";
+var tl=[t.sFlow[lg.f],t.sPain[lg.p]];(lg.h||[]).forEach(function(i){tl.push(t.tIss[i])});if(lg.u!==undefined&&lg.u>-1)tl.push(t.tUse[lg.u]);h+='<ul class="steps">'+li(tl)+"</ul>";
+h+='<div class="tag">'+t.eatH+'</div><ul class="steps">'+li(t.eF[lg.f].concat(lg.p>0?t.eP:[]))+'</ul><div class="tag x">'+t.avoidH+'</div><ul class="steps">'+li(t.av)+"</ul>";
+var last3=ks.slice(-3).map(function(x){return S.logs[x]}),hv=last3.filter(function(x){return x.f>=2}).length,sv=last3.filter(function(x){return x.p===3}).length,med=(S.prof&&S.prof.med)||[],n=[];
+if(hv>=2||sv>=2)n.push(t.docM);var hh=lg.h||[];if(lg.u===2&&(hh.indexOf(8)>-1||hh.indexOf(2)>-1))n.push(t.tamW);if(lg.f>=2&&med.indexOf(2)>-1)n.push(t.anM);if(med.indexOf(0)>-1)n.push(t.pcM);
+if(n.length)h+='<div class="alert"><b>'+t.docT+"</b><br>"+n.join("<br>")+"</div>";return h}
+function render(){var t=T[L],st=state(),p=S.prof;
+$("logo").innerHTML=logo();$("bEn").className=L==="en"?"on":"";$("bTa").className=L==="ta"?"on":"";document.documentElement.lang=L;
+$("hi").textContent=t.hi+p.name;
+$("chips").innerHTML="";t.nav.forEach(function(n,i){var b=document.createElement("button");b.textContent=n;b.onclick=function(){$(NAVID[i]).scrollIntoView({behavior:"smooth"})};$("chips").appendChild(b)});
+$("lNext").textContent=t.next;
+if(st.nx){$("nextIn").textContent=t.inD(st.left);$("nextDate").textContent=fmt(st.nx)}else{$("nextIn").textContent="-";$("nextDate").textContent=""}
+$("dayN").textContent=st.day||"-";$("ring").setAttribute("stroke-dashoffset",st.day?314-314*Math.min(st.day,st.c.avg)/st.c.avg:314);
+$("phase").textContent=st.day?t.ph[st.ph]+" · "+t.day+" "+st.day:"-";
+$("startNow").textContent=t.startToday;$("startNow").className="cta alt"+(st.inP?" hide":"");
+// check-in
+$("ciT").textContent=t.ciT;var tk=ymd(today()),cur=S.logs[tk],cnt=0;
+if(st.inP){for(var d=0;d<st.len;d++){var x=new Date(st.last.getTime());x.setDate(x.getDate()+d);if(S.logs[ymd(x)])cnt++}
+$("ciSub").textContent=t.ciDay(st.day,st.len,cnt);
+$("ciBody").innerHTML='<label>'+t.lFlow+'</label><div id="cf"></div><label>'+t.lPain+'</label><div id="cp2"></div><label>'+t.lWhen+'</label><div id="cw"></div><label>'+t.lIss+'</label><div id="ci_h"></div><label>'+t.lUse+'</label><div id="ci_u"></div><button class="cta" id="ciGo">'+(cur?t.ciUpd:t.ciSave)+"</button>";
+chipRow("cf",t.flow,CI.f,"c4",function(i){CI.f=i;render()});chipRow("cp2",t.pain,CI.p,"c4",function(i){CI.p=i;render()});multi("cw",t.when,CI.w,function(i){tog(CI.w,i,4)});multi("ci_h",t.iss,CI.h,function(i){tog(CI.h,i)});chipRow("ci_u",t.use,CI.u,"c2",function(i){CI.u=i;render()});
+$("ciGo").onclick=function(){if(CI.f<0||CI.p<0||CI.u<0){toast(t.ciNeed);return}S.logs[tk]={f:CI.f,p:CI.p,w:CI.w.slice(),h:CI.h.slice(),u:CI.u,t:Date.now()};save();toast(t.ciDone);render()}}
+else{$("ciSub").textContent="";$("ciBody").innerHTML='<p class="note">'+t.ciOut+"</p>"}
+$("adT").textContent=t.adT;$("adBody").innerHTML=adviceHTML();renderChat();renderProd();
+$("hPad").textContent=t.hPad;$("chg").textContent=t.chg;tick();
+// track
+$("trT").textContent=t.trT;$("hisT").textContent=t.hisT;$("trN").textContent=t.trN;
+$("stats").innerHTML="<div><b>"+st.c.n+"</b><span class='sub'>"+t.trCycles+"</span></div><div><b>"+st.c.avg+"</b><span class='sub'>"+t.trAvg+"</span></div><div><b>"+st.len+"</b><span class='sub'>"+t.trLen+"</span></div>";
+var ks=Object.keys(S.logs).sort().reverse().slice(0,10);
+$("his").innerHTML=ks.length?ks.map(function(k){var g=S.logs[k];return'<div class="h"><span><i class="dot" style="opacity:'+[.3,.55,.8,1][g.f]+'"></i>'+fmt(pd(k))+"</span><span>"+t.flow[g.f]+" · "+t.pain[g.p]+(function(w){return w.length?" · "+w.map(function(i){return t.when[i]}).join("/"):""})(norm(g).w)+(g.u!==undefined&&g.u>-1?" · "+t.use[g.u]:"")+(g.h&&g.h.length?" · "+g.h.map(function(i){return t.iss[i]}).join(", "):"")+"</span></div>"}).join(""):'<p class="note">'+t.hisE+"</p>";
+// share
+$("hShare").textContent=t.hShare;$("shN").textContent=t.shN;$("lWho").textContent=t.lWho;$("who").value=S.who;shMsg();
+$("cp").textContent=t.cp;$("lAuto").textContent=t.lAuto;$("auto").checked=!!S.auto;$("shP").textContent=t.shP;
+// details
+$("dT").textContent=t.dT;var age=Math.floor(dd(today(),pd(p.dob))/365.25),hl=(p.med||[]).map(function(i){return t.med[i]}).join(", ")+(p.other?"; "+p.other:"");
+var kv=function(a,b){return'<div class="kv"><span>'+a+"</span><span>"+esc(b)+"</span></div>"};
+$("dBody").innerHTML=kv(t.dName,p.name)+kv(t.dAge,age+t.yrs)+kv(t.dPhone,p.phone)+kv(t.dEmail,p.email)+kv(t.dHealth,hl)+(p.first?kv(t.dFirst,fmt(pd(p.first))+" "+pd(p.first).getFullYear()):"");
+$("dEdit").textContent=t.dEdit;$("dReset").textContent=rst?t.dReset2:t.dReset;
+$("pT").textContent=t.pT;$("pBody").innerHTML=t.pol.map(function(x){return"<details><summary>"+x[0]+"</summary><p>"+x[1]+"</p></details>"}).join("")}
+function shMsg(){var t=T[L],st=state(),txt=t.msg(S.who,st.nx?fmt(st.nx):"-");$("msg").textContent=txt;$("wa").href="https://wa.me/?text="+encodeURIComponent(txt);$("wa").textContent=t.wa}
+function show(){var has=!!S.prof&&!editing;if(has){OB.d={};$("obF").innerHTML=""}$("ob").className=has?"hide":"";$("home").className=has?"":"hide";
+if(has){var tk=S.logs[ymd(today())];if(tk&&CI.p<0){CI=norm(tk)}if(CI.u<0)CI.u=lastU();render()}else{if(S.prof&&!OB.med.length)OB.med=S.prof.med.slice();renderOb();$("logo").innerHTML=logo()}}
+$("bEn").onclick=function(){L="en";save();show()};$("bTa").onclick=function(){L="ta";save();show()};
+$("startNow").onclick=function(){var k=ymd(today());if(S.cycles.indexOf(k)<0)S.cycles.push(k);CI=newCI();save();toast(T[L].started);render()};
+$("who").oninput=function(){S.who=this.value;save();shMsg()};
+$("auto").onchange=function(){S.auto=this.checked;save();if(S.auto)toast(T[L].autoOn)};
+$("chg").onclick=function(){S.padAt=Date.now();warned=false;save();tick();toast(T[L].chgd)};
+$("cp").onclick=function(){var x=$("msg").textContent;try{navigator.clipboard.writeText(x).then(function(){toast(T[L].copied)},function(){toast(x)})}catch(e){toast(x)}};
+$("dEdit").onclick=function(){editing=true;OB.med=S.prof.med.slice();show()};
+$("dReset").onclick=function(){if(!rst){rst=true;render();return}rst=false;try{localStorage.removeItem("thozhi2")}catch(e){}S={prof:null,cycles:[],len:5,logs:{},padAt:0,who:"",auto:false};OB={med:[]};CI=newCI();chT=[];$("chLog").innerHTML="";show()};
+function renderProd(){var t=T[L],ks=Object.keys(S.logs).sort(),lg=ks.length?S.logs[ks[ks.length-1]]:null,u=lg&&lg.u!==undefined&&lg.u>-1?lg.u:-1,f=lg?lg.f:-1;
+var key=u===0?(f>=2?"padH":"padL"):u===1?"cup":u===2?"tam":u===3?"cloth":"n";
+var h='<div class="rec">'+t.rec[key]+'</div><table class="cmp"><tr>'+t.cmp.h.map(function(x){return"<th>"+x+"</th>"}).join("")+"</tr>"+t.cmp.r.map(function(r){return"<tr>"+r.map(function(x,i){return(i?"<td>":"<th>")+x+(i?"</td>":"</th>")}).join("")+"</tr>"}).join("")+"</table>";
+h+='<div class="pl">'+t.links.filter(function(x,i){return i!==3||u===2}).map(function(x){return'<a href="'+x[1]+'" target="_blank" rel="noopener"><b style="font-weight:500">'+x[0]+"</b><span>"+t.openL+" &#8599;</span></a>"}).join("")+'</div><p class="note">'+t.pdN+"</p>";
+$("pdT").textContent=t.pdT;$("pdBody").innerHTML=h}
+function renderChat(){var t=T[L];$("chT").textContent=t.chT;$("chN").textContent=smp===null?t.chNA:t.chN;$("chIn").placeholder=t.chPh;$("chGo").textContent=chBusy?t.chStop:t.chSend;$("chD").textContent=t.chD;
+$("chSq").innerHTML=chT.length?"":t.chSq.map(function(q,i){return'<button type="button" data-i="'+i+'">'+esc(q)+"</button>"}).join("");
+Array.prototype.forEach.call($("chSq").children,function(b){b.onclick=function(){ask(t.chSq[+b.dataset.i])}})}
+function addB(c,x){var d=document.createElement("div");d.className="bub "+c;d.textContent=x;$("chLog").appendChild(d);$("chLog").scrollTop=1e9;return d}
+function rules(){var st=state(),p=S.prof||{},ks=Object.keys(S.logs).sort(),lg=ks.length?S.logs[ks[ks.length-1]]:null,E=T.en,age=p.dob?Math.floor(dd(today(),pd(p.dob))/365.25):"unknown",
+med=(p.med||[]).map(function(i){return E.med[i]}).join(", ")||"none",
+ci=lg?"flow "+E.flow[lg.f]+", pain "+E.pain[lg.p]+(lg.u!==undefined&&lg.u>-1?", using "+E.use[lg.u]:"")+((lg.h||[]).length?", other issues: "+lg.h.map(function(i){return E.iss[i]}).join(", "):""):"none yet";
+return"You are Thozhi AI, a warm and knowledgeable assistant inside a period-care app for students in India. You are an expert on menstrual health: cycle phases and tracking, irregular periods, PCOD/PCOS, cramps and pain relief, heavy bleeding, hygiene, pads, menstrual cups, tampons, cloth pads, disposal, nutrition and iron, exercise, mood, first periods, myths and taboos, and when to see a doctor. Reply in "+(L==="ta"?"simple, friendly Tamil":"simple English (if the user writes Tanglish, reply in Tanglish)")+". Keep answers short and easy to read on a phone: under 150 words, simple sentences, plain text only (no markdown symbols like ** or #), short dashes for lists. Be kind and never shaming, and be age-appropriate. You give general health information, not a diagnosis, and you never give medicine doses: for pain relievers say to ask a doctor or pharmacist. Clearly tell the user to see a doctor for red flags: soaking a pad every hour, severe pain that stops daily life, fainting, fever or rash while using a tampon, no period for 3 months, or no first period by age 15. Stay on menstrual and women's health topics and politely redirect anything else. Never ask for personal details like phone or email. Context that may help personalize answers: age "+age+"; health issues noted: "+med+"; cycle day: "+(st.day||"unknown")+"; latest check-in: "+ci+"."}
+async function ask(q){var t=T[L];if(chBusy||!q||!q.trim())return;if(!smp){toast(t.chNA);return}
+q=q.trim();chT.push({role:"user",content:q});$("chIn").value="";addB("u",q);var out=addB("a",t.chThink);chBusy=true;chCtl=new AbortController();renderChat();
+try{var r=await smp([{role:"user",content:rules()}].concat(chT.slice(-12)),{cache:false,signal:chCtl.signal,onText:function(x){out.textContent=x.text;$("chLog").scrollTop=1e9}});chT.push({role:"assistant",content:r.text});out.textContent=r.text}
+catch(e){if(e.code==="cancelled"){out.textContent=e.text||"...";if(e.text)chT.push({role:"assistant",content:e.text});else chT.pop()}else{out.textContent=(e.text?e.text+"\n\n":"")+(t.chErr[e.code]||t.chErr.d);if(e.text)chT.push({role:"assistant",content:e.text});else chT.pop()}}
+chBusy=false;chCtl=null;renderChat();$("chLog").scrollTop=1e9}
+$("chGo").onclick=function(){if(chBusy){if(chCtl)chCtl.abort();return}ask($("chIn").value)};
+$("chIn").onkeydown=function(e){if(e.key==="Enter"&&!e.isComposing&&!chBusy){e.preventDefault();ask($("chIn").value)}};
+try{if(window.claude&&window.claude.use){window.claude.use("sample").then(function(x){smp=x;renderChat()},function(){smp=null;renderChat()})}else{smp=null}}catch(e){smp=null}
+// ---- v3: login, close-person alerts, history ----
+function X(e,t){return L==="ta"?t:e}
+var authed=false,signup=false,cfm=false;
+T.en.nav.splice(6,0,"History");T.en.nav[7]="Share info";T.ta.nav.splice(6,0,"வரலாறு");T.ta.nav[7]="பகிர்";NAVID.splice(6,0,"s6");
+async function H(p){try{var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("thozhi:"+p));return Array.from(new Uint8Array(b)).map(function(x){return("0"+x.toString(16)).slice(-2)}).join("")}catch(e){return"p"+p}}
+function num(){var d=(S.cn||"").replace(/\D/g,"").slice(-10);return d.length===10?"91"+d:""}
+function lastLog(){var k=Object.keys(S.logs).sort();return k.length?S.logs[k[k.length-1]]:null}
+function bld(r){var t=T[L],st=state(),p=S.prof||{},sh=S.sh||[0],lg=lastLog(),a=[];
+if(sh.indexOf(0)>-1&&st.nx)a.push(X("Next period expected around ","அடுத்த மாதவிடாய் எதிர்பார்ப்பு: ")+fmt(st.nx)+".");
+if(sh.indexOf(1)>-1)a.push(X("My period usually lasts "+st.len+" days.","என் மாதவிடாய் பொதுவாக "+st.len+" நாட்கள்."));
+if(sh.indexOf(2)>-1&&lg)a.push(X("Latest check-in: flow ","சமீப பதிவு: ரத்தப்போக்கு ")+t.flow[lg.f]+", "+X("pain ","வலி ")+t.pain[lg.p]+".");
+if(sh.indexOf(3)>-1&&(p.med||[]).length)a.push(X("Health notes: ","உடல்நலக் குறிப்பு: ")+p.med.map(function(i){return t.med[i]}).join(", ")+".");
+var rs=r==="late"?X("I missed changing my pad/cup on time. Please check on me.","பேட்/கப் மாற்ற நேரம் தவறிவிட்டது. என்னை விசாரியுங்கள்."):r==="severe"?X("I have severe pain today and need help. Please call me.","இன்று கடுமையான வலி, உதவி தேவை. அழையுங்கள்."):"";
+return X("Hi "+(S.who||"")+", this is "+p.name+" (Thozhi app). ","வணக்கம் "+(S.who||"")+", நான் "+p.name+" (தோழி). ")+[rs].concat(a).filter(Boolean).join(" ")+X(" Please keep this between us."," இது நமக்குள் இருக்கட்டும்.")}
+function links(txt){var n=num(),e=encodeURIComponent(txt);return{wa:"https://wa.me/"+n+"?text="+e,sms:"sms:+"+n+"?body="+e}}
+shMsg=function(){var txt=bld(""),l=links(txt);$("msg").textContent=txt;$("wa").href=l.wa;$("wa").textContent=X("Send on WhatsApp","WhatsApp-ல் அனுப்பு");$("sms").href=l.sms;$("sms").textContent=X("Send as SMS","SMS-ஆக அனுப்பு")};
+function fire(r){if(!S.auto)return;if(!num()){toast(X("Add your close person's number in Share info","நெருங்கியவரின் எண்ணை 'பகிர்' பகுதியில் சேர்க்கவும்"));return}
+S.al=S.al||[];S.al.push({t:Date.now(),r:r});save();var txt=bld(r),l=links(txt);
+$("al").innerHTML='<div class="alert"><b>'+(r==="late"?X("Pad/cup change missed","மாற்ற நேரம் தவறியது"):X("Severe pain","கடுமையான வலி"))+'</b><div class="msg">'+esc(txt)+'</div><a class="cta" target="_blank" rel="noopener" href="'+l.wa+'">'+X("Alert on WhatsApp","WhatsApp-ல் தெரிவி")+'</a><a class="cta alt" href="'+l.sms+'">'+X("Alert by SMS","SMS-ல் தெரிவி")+'</a><button class="cta alt" id="alX">'+X("Dismiss","மூடு")+'</button></div>';
+$("alX").onclick=function(){$("al").innerHTML=""};try{navigator.vibrate&&navigator.vibrate([300,150,300])}catch(e){}}
+var _t=tick;tick=function(){var w=warned;_t();if(!w&&warned&&S.padAt&&authed)fire("late")};
+var auM="login",otp={c:"",e:0},shw=false;
+function renderAu(){var inp=function(id,ic,ty,ph,ac){return'<div class="af"><span>'+ic+'</span><input id="'+id+'" type="'+ty+'" placeholder="'+ph+'" autocomplete="'+(ac||"off")+'"></div>'},
+h='<div class="hero"><i class="b1"></i><i class="b2"></i><svg width="46" height="60" viewBox="0 0 14 32" aria-hidden="true"><path d="M7 0C7 0 .5 7 .5 11a6.5 6.5 0 0013 0C13.5 7 7 0 7 0z" fill="#fff"/></svg><div class="ht">Thozhi</div><div class="hs">'+X("Your period care buddy","உங்கள் மாதவிடாய் தோழி")+'</div></div><div class="acard">';
+if(auM==="login")h+='<h2>'+X("Welcome back","மீண்டும் வருக")+'</h2>'+inp("a_e","✉️","email",X("Email","மின்னஞ்சல்"),"username")+inp("a_p","🔒",shw?"text":"password",X("Password","கடவுச்சொல்"),"current-password")+'<div class="al2"><button class="lk" id="a_see">'+(shw?X("Hide","மறை"):X("Show","காட்டு"))+'</button><button class="lk" id="a_fp">'+X("Forgot password?","கடவுச்சொல் மறந்துவிட்டதா?")+'</button></div><button class="cta" id="a_go">'+X("Login","உள்நுழை")+'</button><div class="or"><span>'+X("or","அல்லது")+'</span></div><button class="cta alt" id="a_new">'+X("Create new account","புதிய கணக்கை உருவாக்கு")+'</button><p class="note" style="text-align:center">'+X("Demo: account is stored only on this phone.","டெமோ: கணக்கு இந்த போனில் மட்டும் சேமிக்கப்படும்.")+'</p>';
+else if(auM==="fp1")h+='<h2>'+X("Forgot password","கடவுச்சொல் மறந்துவிட்டதா")+'</h2><p class="note">'+X("Enter your account email. We will send a 6-digit code to it.","கணக்கின் மின்னஞ்சலை உள்ளிடவும். 6 இலக்க குறியீடு அனுப்பப்படும்.")+'</p>'+inp("a_e","✉️","email",X("Email","மின்னஞ்சல்"),"username")+'<button class="cta" id="a_snd">'+X("Send code","குறியீடு அனுப்பு")+'</button><button class="lk c" id="a_bk">← '+X("Back to login","உள்நுழைவுக்குத் திரும்பு")+'</button>';
+else h+='<h2>'+X("Enter code","குறியீட்டை உள்ளிடு")+'</h2><div class="msg">'+X("Demo: a web app cannot send real email. Your code is ","டெமோ: வெப் ஆப் மின்னஞ்சல் அனுப்ப முடியாது. உங்கள் குறியீடு: ")+'<b>'+otp.c+'</b><br>'+X("(Real app emails it to ","(உண்மையான ஆப் இதை ")+esc(S.prof?S.prof.email:"")+X(")",")-க்கு அனுப்பும்)")+'</div>'+inp("a_c","🔑","tel",X("6-digit code","6 இலக்க குறியீடு"))+inp("a_n","🔒","password",X("New password (min 6)","புதிய கடவுச்சொல் (குறைந்தது 6)"),"new-password")+'<button class="cta" id="a_rs">'+X("Reset & login","மாற்றி உள்நுழை")+'</button><button class="lk c" id="a_bk">← '+X("Back to login","உள்நுழைவுக்குத் திரும்பு")+'</button>';
+$("au").innerHTML=h+'</div>';var B=function(i,f){if($(i))$(i).onclick=f};
+B("a_see",function(){shw=!shw;var e=$("a_e").value;renderAu();$("a_e").value=e});
+B("a_fp",function(){auM="fp1";renderAu()});B("a_bk",function(){auM="login";renderAu()});
+B("a_snd",function(){var e=$("a_e").value.trim().toLowerCase();if(!S.prof||e!==S.prof.email.toLowerCase()){toast(X("No account with this email.","இந்த மின்னஞ்சலில் கணக்கு இல்லை."));return}otp={c:String(Math.floor(1e5+Math.random()*9e5)),e:Date.now()+3e5};auM="fp2";renderAu()});
+B("a_rs",async function(){var c=$("a_c").value.trim(),n=$("a_n").value;if(c!==otp.c||Date.now()>otp.e){toast(X("Wrong or expired code.","குறியீடு தவறு அல்லது காலாவதி."));return}if(n.length<6){toast(X("Password needs at least 6 characters.","கடவுச்சொல் குறைந்தது 6 எழுத்துகள்."));return}S.ph=await H(n);save();otp={c:"",e:0};auM="login";authed=true;show();toast(X("Password changed. You are logged in.","கடவுச்சொல் மாற்றப்பட்டது. உள்நுழைந்தீர்கள்."))});
+B("a_go",async function(){if(!S.prof){toast(X("No account yet. Tap Create new account.","கணக்கு இல்லை. புதிய கணக்கை உருவாக்கவும்."));return}
+var ok=$("a_e").value.trim().toLowerCase()===S.prof.email.toLowerCase()&&(await H($("a_p").value))===S.ph;if(!ok){toast(X("Wrong email or password.","மின்னஞ்சல் அல்லது கடவுச்சொல் தவறு."));return}authed=true;show()});
+B("a_new",function(){if(S.prof&&!cfm){cfm=true;toast(X("This replaces the saved account and data. Tap again to continue.","இது சேமித்த கணக்கையும் தரவையும் அழிக்கும். தொடர மீண்டும் தட்டவும்."));return}
+cfm=false;if(S.prof){try{localStorage.removeItem("thozhi2")}catch(e){}S={prof:null,cycles:[],len:5,logs:{},padAt:0,who:"",auto:true};OB={med:[]}}signup=true;show()})}
+var _ro=renderOb;renderOb=function(){_ro();var d=OB.d||{},ed=!!S.prof,pv=function(k,i){return esc(d[k]!==undefined?d[k]:i)},h="";
+h+='<label for="o_cname">'+X("Close person's name (mom, sister, friend)","நெருங்கியவர் பெயர் (அம்மா, சகோதரி, தோழி)")+'</label><input id="o_cname" type="text" value="'+pv("cname",S.who||"")+'">';
+h+='<label for="o_cn">'+X("Close person's phone number","நெருங்கியவரின் தொலைபேசி எண்")+'</label><input id="o_cn" type="tel" inputmode="numeric" value="'+pv("cn",S.cn||"")+'">';
+if(!ed)h+='<label for="o_pw">'+X("Create password (min 6 characters)","கடவுச்சொல் உருவாக்கு (குறைந்தது 6)")+'</label><input id="o_pw" type="password" autocomplete="new-password" value="'+pv("pw","")+'">';
+$("obF").insertAdjacentHTML("beforeend",h)};
+var og=$("obGo").onclick;
+$("obGo").onclick=async function(){var t=T[L],v=function(i){var e=$("o_"+i);return e?e.value.trim():""},cn=v("cn").replace(/\D/g,"").slice(-10);
+if(!S.prof&&v("pw").length<6){toast(X("Password needs at least 6 characters.","கடவுச்சொல் குறைந்தது 6 எழுத்துகள் வேண்டும்."));return}
+if(cn.length!==10||!v("cname")){toast(X("Enter your close person's name and 10 digit number.","நெருங்கியவரின் பெயர், 10 இலக்க எண் உள்ளிடவும்."));return}
+var ph=S.prof?S.ph:await H(v("pw")),first=!S.prof;og();if(!S.prof)return;
+S.ph=ph;S.cn=cn;S.who=v("cname");if(first)S.auto=true;authed=true;signup=false;save();show()};
+function perHTML(){var c=S.cycles.slice().sort(),ks=Object.keys(S.logs).sort(),t=T[L];if(!c.length)return"";
+return c.map(function(x,i){var nx=c[i+1],end=nx||ymd(new Date(pd(x).getTime()+864e5*40)),n=ks.filter(function(k){return k>=x&&k<end&&dd(pd(k),pd(x))<10}).length,cl=nx?dd(pd(nx),pd(x))+X(" day cycle"," நாள் சுழற்சி"):X("current cycle","நடப்பு சுழற்சி");
+return'<div class="h"><span><i class="dot"></i>'+fmt(pd(x))+" "+pd(x).getFullYear()+"</span><span>"+n+X(" days logged"," நாள் பதிவு")+" · "+cl+"</span></div>"}).reverse().join("")}
+function logRows(){var t=T[L],ks=Object.keys(S.logs).sort().reverse();return ks.length?ks.map(function(k){var g=S.logs[k];return'<div class="h"><span>'+fmt(pd(k))+" "+pd(k).getFullYear()+"</span><span>"+t.flow[g.f]+" · "+t.pain[g.p]+(g.u>-1?" · "+t.use[g.u]:"")+((g.h||[]).length?" · "+g.h.map(function(i){return t.iss[i]}).join(", "):"")+(g.x?" · "+esc(g.x):"")+"</span></div>"}).join(""):'<p class="note">'+t.hisE+"</p>"}
+var _r=render;render=function(){_r();var t=T[L],p=S.prof,st=state(),kv=function(a,b){return'<div class="kv"><span>'+a+"</span><span>"+esc(b)+"</span></div>"};
+$("hShare").textContent=X("Share your information","உங்கள் தகவலைப் பகிருங்கள்");
+$("shN").textContent=X("Choose who to tell and what to share. Only the items you tick go in the message.","யாருக்கு, எதைப் பகிர வேண்டும் என நீங்களே தேர்வு செய்யுங்கள். டிக் செய்தவை மட்டுமே செல்லும்.");
+$("lWho").textContent=X("Their name","அவர் பெயர்");$("lNo").textContent=X("Their phone number","அவர் தொலைபேசி எண்");$("lWhat").textContent=X("What to share","எதைப் பகிர வேண்டும்");
+$("whoNo").value=S.cn||"";$("whoNo").oninput=function(){S.cn=this.value;save();shMsg()};
+var O=[X("Next period date","அடுத்த தேதி"),X("Period length","நாட்கள் எண்ணிக்கை"),X("Flow & pain","ரத்தப்போக்கு, வலி"),X("Health notes","உடல்நலக் குறிப்பு")];S.sh=S.sh||[0];
+$("shOpt").innerHTML=O.map(function(o,i){return'<button type="button" class="'+(S.sh.indexOf(i)>-1?"on":"")+'" data-i="'+i+'">'+o+"</button>"}).join("");
+Array.prototype.forEach.call($("shOpt").children,function(b){b.onclick=function(){var i=+b.dataset.i,x=S.sh.indexOf(i);if(x>-1)S.sh.splice(x,1);else S.sh.push(i);save();render()}});
+$("lAuto").textContent=X("Auto-alert my close person if I miss a pad/cup change or have severe pain","பேட்/கப் மாற்ற தவறினாலோ கடுமையான வலி இருந்தாலோ அவருக்கு அறிவி");
+$("shP").textContent=X("A web app can't send SMS silently. When an alert triggers, tap Send to deliver it. Fully automatic sending needs a server.","வெப் ஆப் தானாக SMS அனுப்ப முடியாது. அலர்ட் வந்ததும் 'அனுப்பு' தட்டவும். முழு தானியக்கத்திற்கு சர்வர் தேவை.");shMsg();
+$("hisT").textContent=X("All periods (dates & days)","அனைத்து மாதவிடாய்கள் (தேதி, நாட்கள்)");$("his").innerHTML=perHTML()||'<p class="note">'+t.hisE+"</p>";
+$("hiT2").textContent=X("History","வரலாறு");var al=(S.al||[]).slice().reverse().map(function(a){return'<div class="h"><span>'+new Date(a.t).toLocaleString()+"</span><span>"+(a.r==="late"?X("Missed change","மாற்ற தவறு"):X("Severe pain","கடுமையான வலி"))+"</span></div>"}).join("");
+var hs=[],tf=function(ms){return new Date(ms).toLocaleString(L==="ta"?"ta-IN":"en-IN",{day:"numeric",month:"short",year:"numeric",hour:"numeric",minute:"2-digit"})},df=function(k){return fmt(pd(k))+" "+pd(k).getFullYear()};
+Object.keys(S.logs).forEach(function(k){var r=S.logs[k],g=norm(r),a=[X("Flow","இரத்தப்போக்கு")+": "+t.flow[g.f],X("Pain","வலி")+": "+t.pain[g.p]];if(g.w.length)a.push(X("When","நேரம்")+": "+g.w.map(function(i){return t.when[i]}).join(", "));if(g.u>-1)a.push(X("Using","பயன்பாடு")+": "+t.use[g.u]);if(g.h.length)a.push(X("Issues","பிரச்சினைகள்")+": "+g.h.map(function(i){return t.iss[i]}).join(", "));if(r.x)a.push(esc(r.x));hs.push({ms:r.t||pd(k).getTime(),tm:!!r.t,k:k,ty:X("Daily check-in","தினசரி பதிவு"),b:a})});
+Object.keys(S.sy||{}).forEach(function(k){var m=(S.syTm||{})[k];hs.push({ms:m||pd(k).getTime(),tm:!!m,k:k,ty:X("Symptoms","அறிகுறிகள்"),b:[esc(S.sy[k].map(symName).join(", "))]})});
+(S.al||[]).forEach(function(a){hs.push({ms:a.t,tm:true,k:ymd(new Date(a.t)),ty:X("Alert sent","அனுப்பிய அலர்ட்"),b:[a.r==="late"?X("Missed change","மாற்ற தவறு"):X("Severe pain","கடுமையான வலி")]})});
+(S.cycles||[]).forEach(function(x){hs.push({ms:pd(x).getTime(),tm:false,k:x,ty:X("Period started","மாதவிடாய் தொடக்கம்"),b:[]})});
+hs.sort(function(a,b){return b.ms-a.ms});
+$("hb").innerHTML=hs.length?hs.map(function(e){return'<div class="rep"><div class="rh"><b>'+e.ty+"</b><span>"+(e.tm?tf(e.ms):df(e.k))+"</span></div>"+e.b.map(function(l){return"<div>"+l+"</div>"}).join("")+"</div>"}).join(""):'<p class="note">'+X("No reports yet.","இன்னும் பதிவுகள் இல்லை.")+"</p>";
+$("dBody").innerHTML+='<div class="kv"><span>'+X("Close person","நெருங்கியவர்")+"</span><span>"+esc((S.who||"")+" "+(S.cn||""))+"</span></div>";
+$("dOut").textContent=X("Log out","வெளியேறு");$("dOut").onclick=function(){authed=false;show()};
+var g=$("ciGo").onclick;$("ciGo").onclick=function(){g();var l=S.logs[ymd(today())];if(l&&l.p===3&&S.sev!==ymd(today())){S.sev=ymd(today());save();fire("severe")}}};
+var _sh=show;show=function(){var gate=(S.prof&&!editing&&!authed)||(!S.prof&&!signup);if(gate){$("ob").className="hide";$("home").className="hide";$("au").className="";renderAu();$("logo").innerHTML=logo();return}$("au").className="hide";_sh()};
+
+var SY=[["Head","தலை",[["🔨","Headache","தலைவலி"],["🤕","Migraines","ஒற்றைத் தலைவலி"],["😵‍💫","Dizziness","தலைச்சுற்றல்"],["🍓","Acne","முகப்பரு"],["🌶️","Hectic fever","கடுமையான காய்ச்சல்"]]],
+["Body","உடல்",[["🦴","Neck aches","கழுத்து வலி"],["💪","Shoulder aches","தோள் வலி"],["🌸","Tender Breasts","மார்பு வலி"],["🎯","Breast sensitivity","மார்பு உணர்திறன்"],["🧍‍♀️","Backaches","முதுகு வலி"],["🔻","Low back pain","இடுப்பு வலி"],["🫨","Body aches","உடல் வலி"],["🦵","Muscle pain","தசை வலி"],["🤧","Influenza","சளி, காய்ச்சல்"],["🏥","Illness","உடல்நலக்குறைவு"],["⚡","Cramps","வயிற்றுப் பிடிப்பு"],["🥶","Chills","குளிர்"],["🪲","Itchiness","அரிப்பு"],["🔴","Rashes","தடிப்புகள்"],["💦","Night sweats","இரவு வியர்வை"],["🔥","Hot flashes","உடல் சூடு"],["⚖️","Weight gain","எடை கூடுதல்"],["🌀","PMS","PMS"]]],
+["Cervix","கருப்பை வாய்",[["🫧","Pelvic pain","அடிவயிற்று வலி"],["🪨","Cervical firmness","வாய் இறுக்கம்"],["↔️","Cervical opening","வாய் திறப்பு"],["🧪","Cervical mucus","வாய் திரவம்"],["🩸","Flow","ரத்தப்போக்கு"],["💥","Spotting","லேசான கசிவு"],["🪵","Irritation","எரிச்சல்"]]],
+["Fluid","திரவம்",[["🏜️","Dry","வறட்சி"],["🍯","Sticky","பிசுபிசுப்பு"],["🥛","Creamy","கிரீம் போல"],["🌊","Watery","நீர் போல"],["🥚","Egg White","முட்டை வெள்ளை"],["🧀","Cottage-cheese","பாலாடை போல"],["🟢","Green","பச்சை"],["🩸","With blood","ரத்தத்துடன்"],["💨","Foul-Smelling","துர்நாற்றம்"]]],
+["Abdomen","வயிறு",[["🎈","Bloating","வயிறு உப்புசம்"],["💩","Constipation","மலச்சிக்கல்"],["🧻","Diarrhea","வயிற்றுப்போக்கு"],["🤢","Nausea","குமட்டல்"],["😣","Abdominal cramps","வயிற்றுப் பிடிப்பு"],["🫄","Dyspepsia","அஜீரணம்"],["🫧","Gas","வாயு"],["🍗","Hunger","பசி"],["🍰","Cravings","ஆசைகள்"],["💥","Ovulation pain","கருமுட்டை வலி"]]],
+["Mental","மனநிலை",[["😰","Anxiety","பதற்றம்"],["🐼","Insomnia","தூக்கமின்மை"],["🏋️","Stress","மன அழுத்தம்"],["🎭","Moodiness","மனநிலை மாற்றம்"],["⚠️","Tension","டென்ஷன்"],["😤","Irritability","எரிச்சல்"],["🌀","Unable to concentrate","கவனம் இல்லை"],["🪑","Fatigue","சோர்வு"],["❓","Confusion","குழப்பம்"]]]];
+var SYM={},SYT=[];SY.forEach(function(c){c[2].forEach(function(x){SYM[x[1]]=x})});
+function symName(k){var x=SYM[k];return x?(L==="ta"?x[2]:x[1]):k}
+function openSy(){SYT=((S.sy||{})[ymd(today())]||[]).slice();var h='<div class="syh"><button id="syB" aria-label="Back">←</button><span>'+X("Add Symptom","அறிகுறி சேர்")+'</span><button id="syC" aria-label="Clear">✎</button></div>';
+SY.forEach(function(c,ci){h+='<div class="sys"><h3>'+(L==="ta"?c[1]:c[0])+'</h3><div class="syg">'+c[2].map(function(x,i){return'<button type="button" data-k="'+x[1]+'" class="'+(SYT.indexOf(x[1])>-1?"on":"")+'"><i>'+x[0]+"</i>"+(L==="ta"?x[2]:x[1])+"</button>"}).join("")+"</div></div>"});
+h+='<div class="sysv"><button id="syS">'+X("Save","சேமி")+"</button></div>";$("sy").innerHTML=h;$("sy").className="sy";$("sy").scrollTop=0;
+Array.prototype.forEach.call($("sy").querySelectorAll(".syg button"),function(b){b.onclick=function(){var k=b.dataset.k,x=SYT.indexOf(k);if(x>-1)SYT.splice(x,1);else SYT.push(k);b.className=x>-1?"":"on"}});
+$("syC").onclick=function(){SYT=[];Array.prototype.forEach.call($("sy").querySelectorAll(".syg button"),function(b){b.className=""})};$("syB").onclick=function(){$("sy").className="sy hide"};
+$("syS").onclick=function(){S.sy=S.sy||{};S.syTm=S.syTm||{};if(SYT.length){S.sy[ymd(today())]=SYT.slice();S.syTm[ymd(today())]=Date.now()}else{delete S.sy[ymd(today())];delete S.syTm[ymd(today())]}save();$("sy").className="sy hide";toast(X("Symptoms saved","அறிகுறிகள் சேமிக்கப்பட்டன"));render()}}
+var _r2=render;render=function(){_r2();var tk=(S.sy||{})[ymd(today())]||[];
+$("ciBody").insertAdjacentHTML("beforeend",'<button class="cta alt" id="syOpen">'+X("Add symptoms","அறிகுறிகளைச் சேர்")+(tk.length?" ("+tk.length+")":"")+"</button>"+(tk.length?'<p class="note">'+tk.map(symName).join(", ")+"</p>":""));
+$("syOpen").onclick=openSy;
+var ks=Object.keys(S.sy||{}).sort().reverse();
+};
+
+var cpwOpen=false;
+function cycHTML(st){var A=st.c.avg||28,P=+st.len||5,ov=Math.max(P+3,A-14),fs=ov-4,fe=ov+1,d=st.day;
+if(!d)return'<p class="note">'+X("Add your last period date to see your cycle.","சுழற்சியைப் பார்க்க கடைசி மாதவிடாய் தேதியைச் சேர்க்கவும்.")+"</p>";
+var od=new Date(st.last.getTime());od.setDate(od.getDate()+ov-1);var left=dd(od,today()),pc=function(n){return(n/A*100)+"%"},tx,ic;
+if(d<=P){ic="🩸";tx=X("Period days. Not ovulating.","மாதவிடாய் நாட்கள். கருமுட்டை வெளியேற்றம் இல்லை.")}
+else if(d<fs){ic="🌱";tx=X("Not ovulating now.","இப்போது கருமுட்டை வெளியேற்றம் இல்லை.")}
+else if(d===ov){ic="🥚";tx=X("You are ovulating today (estimated).","இன்று கருமுட்டை வெளியேற்ற நாள் (மதிப்பீடு).")}
+else if(d<=fe){ic="🟢";tx=X("Fertile window.","கருவுறும் காலம்.")}
+else{ic="🌙";tx=X("Ovulation is over for this cycle.","இந்த சுழற்சியில் கருமுட்டை வெளியேற்றம் முடிந்தது.")}
+var nx=left>0?X("Ovulation expected "+fmt(od)+" (in "+left+" days)","கருமுட்டை வெளியேற்றம் "+fmt(od)+" (இன்னும் "+left+" நாள்)"):left===0?X("Ovulation expected today","கருமுட்டை வெளியேற்றம் இன்று"):X("Ovulation was around "+fmt(od),fmt(od)+" அன்று கருமுட்டை வெளியேற்றம் இருந்தது"),
+seg=function(w,c){return'<div style="width:'+pc(w)+";background:"+c+'"></div>'};
+return'<div style="margin-top:14px"><b>'+ic+" "+tx+'</b><div class="sub">'+nx+'</div><div style="position:relative;margin-top:12px"><div style="display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--line)">'+seg(P,"var(--pri)")+seg(fs-P-1,"#d9a3b8")+seg(fe-fs+1,"var(--ok)")+seg(Math.max(A-fe,0),"#c47b99")+'</div><div style="position:absolute;top:-4px;left:calc('+pc(Math.min(d-.5,A))+' - 11px);width:22px;height:22px;border-radius:50%;background:var(--card);border:3px solid var(--ink)"></div></div><div class="note" style="margin-top:8px"><span style="color:var(--pri)">● '+X("Period","மாதவிடாய்")+'</span> &nbsp;<span style="color:var(--ok)">● '+X("Fertile / ovulation","கருவுறும் காலம்")+'</span> &nbsp;<span>● '+X("Other days","மற்ற நாட்கள்")+"</span></div><p class=\"note\">"+X("Estimate from your average cycle. Not for birth control.","சராசரி சுழற்சியிலிருந்து மதிப்பீடு. கருத்தடைக்கு நம்பக்கூடாது.")+"</p></div>"}
+var _r3=render;render=function(){_r3();$("cyc").innerHTML=cycHTML(state());var c=$("cpw");
+if(!cpwOpen){c.innerHTML='<button class="cta alt" id="cpO">'+X("Change password","கடவுச்சொல் மாற்று")+"</button>";$("cpO").onclick=function(){cpwOpen=true;render()};return}
+c.innerHTML='<div class="af"><span>🔒</span><input id="cp_o" type="password" placeholder="'+X("Current password","தற்போதைய கடவுச்சொல்")+'" autocomplete="current-password"></div><div class="af"><span>🆕</span><input id="cp_n" type="password" placeholder="'+X("New password (min 6)","புதிய கடவுச்சொல் (குறைந்தது 6)")+'" autocomplete="new-password"></div><button class="cta" id="cpS">'+X("Save new password","புதிய கடவுச்சொல்லைச் சேமி")+'</button><button class="cta alt" id="cpX">'+X("Cancel","ரத்து")+"</button>";
+$("cpX").onclick=function(){cpwOpen=false;render()};
+$("cpS").onclick=async function(){var n=$("cp_n").value;if((await H($("cp_o").value))!==S.ph){toast(X("Current password is wrong.","தற்போதைய கடவுச்சொல் தவறு."));return}if(n.length<6){toast(X("Password needs at least 6 characters.","கடவுச்சொல் குறைந்தது 6 எழுத்துகள்."));return}S.ph=await H(n);save();cpwOpen=false;render();toast(X("Password changed.","கடவுச்சொல் மாற்றப்பட்டது."))}};
+
+T.en.flow=["Light","Normal","Heavy","Very heavy"];T.ta.flow=["குறைவு","இயல்பு","அதிகம்","மிக அதிகம்"];
+T.en.sFlow.push("Very heavy flow: change often (every 2-3 hours), rest, drink water, and tell an adult. If you soak a pad every hour or feel faint, see a doctor today.");
+T.ta.sFlow.push("மிக அதிக ரத்தப்போக்கு: 2-3 மணிநேரத்திற்கு ஒருமுறை மாற்றவும், ஓய்வெடுக்கவும், நிறைய தண்ணீர் குடிக்கவும், பெரியவரிடம் சொல்லவும். ஒரு மணிநேரத்தில் நாப்கின் நனைந்தால் அல்லது மயக்கம் வந்தால் இன்றே மருத்துவரைப் பாருங்கள்.");
+T.en.eF.push(T.en.eF[2]);T.ta.eF.push(T.ta.eF[2]);
+var CIX=null;
+var _r4=render;render=function(){_r4();var tk=ymd(today()),cur=S.logs[tk];if(CIX===null)CIX=cur&&cur.x?cur.x:"";
+$("ci_h").insertAdjacentHTML("afterend",'<label for="ci_x" style="margin-top:10px">'+X("✍️ Type your own health issue","✍️ உங்கள் உடல்நலப் பிரச்சினையை தட்டச்சு செய்யுங்கள்")+'</label><input id="ci_x" type="text" maxlength="120" style="margin-bottom:4px" placeholder="'+X("e.g. leg pain, burning while urinating","எ.கா. கால் வலி, சிறுநீரில் எரிச்சல்")+'">');
+$("ci_x").value=CIX;$("ci_x").oninput=function(){CIX=this.value};
+var g2=$("ciGo").onclick;$("ciGo").onclick=function(){g2();var l=S.logs[tk];if(l){l.x=CIX.trim();save()}}};
+var SYI={"Headache": ["Hormone shifts, dehydration, poor sleep or stress.", "Drink water, rest in a dark quiet place, eat on time."], "Migraines": ["Hormone changes can trigger them.", "Rest in the dark, hydrate, note triggers. See a doctor if frequent."], "Dizziness": ["Low iron, low blood sugar or dehydration.", "Sit down, sip water, eat something. If you faint, see a doctor."], "Acne": ["Hormones raise oil in skin before periods.", "Wash face twice daily, do not squeeze pimples."], "Hectic fever": ["Fever means infection, not normal period.", "Rest, drink fluids. See a doctor today if it lasts over a day."], "Neck aches": ["Tension and bad posture, worse with hormones.", "Gentle stretches, warm compress, relax shoulders."], "Shoulder aches": ["Muscle tension or posture.", "Warm compress, light stretching, short breaks."], "Tender Breasts": ["Hormones make breasts swell before periods.", "Wear a supportive bra, warm compress, cut extra salt."], "Breast sensitivity": ["Rising hormones make breasts touchy.", "Soft supportive bra, avoid pressure."], "Backaches": ["Womb muscles cramp and pull on the back.", "Warm pack, gentle walking, rest on your side."], "Low back pain": ["Period cramps spread to the lower back.", "Heat pad, light stretching, rest."], "Body aches": ["Prostaglandins in periods cause aches.", "Warm bath, rest, water. See a doctor if severe."], "Muscle pain": ["Hormones and cramps tighten muscles.", "Gentle stretching, heat, light movement."], "Influenza": ["A viral infection, not caused by periods.", "Rest, fluids, warm food. See a doctor if fever persists."], "Illness": ["Body is unwell, periods may feel worse.", "Rest and fluids. See a doctor if not improving."], "Cramps": ["Womb squeezes to shed its lining.", "Heat pad on belly, walk gently, drink warm water."], "Chills": ["Fever or hormone dips can cause chills.", "Stay warm, drink warm fluids. Check for fever."], "Itchiness": ["Sweat, pads or skin dryness irritate skin.", "Keep dry, use cotton, change pads on time."], "Rashes": ["Pad friction or sweat can irritate skin.", "Keep area dry, change pads often, try another brand."], "Night sweats": ["Hormone shifts change body temperature.", "Light cotton nightwear, cool room. See a doctor if frequent."], "Hot flashes": ["Hormone swings, stress or heat.", "Cool water, loose clothes, deep breaths."], "Weight gain": ["Water retention before periods.", "Cut extra salt, drink water, light exercise."], "PMS": ["Hormone drops before your period.", "Sleep well, eat regular meals, gentle exercise."], "Pelvic pain": ["Cramps or womb contractions.", "Heat pad, rest. See a doctor if sharp or constant."], "Cervical firmness": ["Cervix is firm outside fertile days.", "Normal, no action needed."], "Cervical opening": ["Cervix opens slightly around ovulation or periods.", "Normal. Nothing to do."], "Cervical mucus": ["Mucus changes with the cycle.", "Normal. See a doctor if smelly or itchy."], "Flow": ["Womb lining is shedding.", "Change pads on time, drink water, eat iron-rich food."], "Spotting": ["Light bleeding between periods from hormone shifts.", "Note dates. See a doctor if it is frequent or heavy."], "Irritation": ["Pads, soaps or damp skin irritate.", "Use cotton, plain water, no scented products."], "Dry": ["Low estrogen days.", "Normal. Drink water."], "Sticky": ["Early cycle discharge, thick and tacky.", "Normal. Keep clean and dry."], "Creamy": ["Discharge gets creamy as estrogen rises.", "Normal. Cotton underwear."], "Watery": ["Common near ovulation.", "Normal. Change pad or liner if damp."], "Egg White": ["Stretchy clear mucus means ovulation is near.", "Normal sign of fertile days."], "Cottage-cheese": ["Thick white discharge may be a yeast infection.", "Keep dry. See a doctor, especially with itching."], "Green": ["Green discharge may mean infection.", "See a doctor soon."], "With blood": ["Blood can mix in near period start or end.", "Normal then. See a doctor if between periods."], "Foul-Smelling": ["Smell may mean infection.", "See a doctor. Keep clean, avoid scented products."], "Bloating": ["Hormones cause water and gas retention.", "Less salt, more water, light walking."], "Constipation": ["Hormones slow digestion.", "Eat fibre, drink water, move daily."], "Diarrhea": ["Prostaglandins loosen the gut.", "Drink ORS or water. See a doctor if over 2 days."], "Nausea": ["Hormones and cramps upset the stomach.", "Small meals, ginger tea, fresh air."], "Abdominal cramps": ["Womb squeezes to shed its lining.", "Heat pad, warm drinks. See a doctor if severe."], "Dyspepsia": ["Hormones slow digestion and cause acidity.", "Small meals, avoid spicy food, do not lie down after eating."], "Gas": ["Slower digestion traps gas.", "Walk, warm water, avoid fizzy drinks."], "Hunger": ["Body needs more energy before periods.", "Eat balanced meals, protein and fibre."], "Cravings": ["Hormones and blood sugar changes.", "Enjoy a little, add fruit and nuts."], "Ovulation pain": ["An egg is released, one side may twinge.", "Rest, heat pad. See a doctor if severe."], "Anxiety": ["Hormone dips affect mood.", "Slow breathing, talk to someone you trust."], "Insomnia": ["Hormones and discomfort disturb sleep.", "Fixed bedtime, no screens, warm milk."], "Stress": ["Stress and hormones affect each other.", "Walk, breathe slowly, take breaks."], "Moodiness": ["Estrogen and progesterone swing.", "Rest, talk it out, be kind to yourself."], "Tension": ["Body and mind feel wound up.", "Stretch, breathe deeply, relax."], "Irritability": ["Hormone drop before periods.", "Take space, sleep, gentle exercise."], "Unable to concentrate": ["Poor sleep and hormones cloud focus.", "Short study blocks, water, enough sleep."], "Fatigue": ["Low iron and hormone changes.", "Rest, iron-rich food, water. See a doctor if constant."], "Confusion": ["Dehydration or low sugar can cloud thinking.", "Drink water and eat. See a doctor if it continues."]};
+var SYTR=null;
+function infoHTML(list){var out=list.map(function(k){var e=SYI[k];if(!e)return"";var tr=L==="ta"&&S.syT&&S.syT[k],w=tr?tr[0]:e[0],t=tr?tr[1]:e[1];return'<details><summary>'+(SYM[k]?SYM[k][0]+" ":"")+symName(k)+'</summary><p><b>'+X("Why:","ஏன்:")+"</b> "+esc(w)+"<br><b>"+X("What to do:","என்ன செய்யலாம்:")+"</b> "+esc(t)+"</p></details>"}).join("");
+if(L==="ta"&&list.length)needTa(list);return out}
+async function needTa(list){var m=list.filter(function(k){return SYI[k]&&!(S.syT&&S.syT[k])});if(!m.length||!smp||SYTR)return;SYTR=1;
+try{var o={};m.forEach(function(k){o[k]=SYI[k]});var r=await smp([{role:"user",content:"Translate these into simple, friendly Tamil for teenage girls. Return ONLY valid JSON with the same keys (keep keys in English) and each value an array [why, what_to_do] in Tamil. No markdown. Input: "+JSON.stringify(o)}],{cache:false});
+var j=JSON.parse(r.text.replace(/```json|```/g,"").trim());S.syT=S.syT||{};Object.keys(j).forEach(function(k){if(Array.isArray(j[k])&&j[k].length===2)S.syT[k]=j[k]});save()}catch(e){}SYTR=null;
+if($("syI"))updI();else render()}
+function updI(){var e=$("syI");if(e)e.innerHTML=SYT.length?'<h3>'+X("Why it happens & what to do","ஏன் வருகிறது & என்ன செய்யலாம்")+"</h3>"+infoHTML(SYT):""}
+var _o=openSy;openSy=function(){_o();var d=document.createElement("div");d.id="syI";d.className="sys";$("sy").insertBefore(d,$("sy").querySelector(".sysv"));updI();
+Array.prototype.forEach.call($("sy").querySelectorAll(".syg button"),function(b){var f=b.onclick;b.onclick=function(){f();updI()}});var c=$("syC").onclick;$("syC").onclick=function(){c();updI()}};
+var _r5=render;render=function(){_r5();var tk=(S.sy||{})[ymd(today())]||[];if(tk.length&&$("syOpen"))$("syOpen").parentNode.insertAdjacentHTML("beforeend",'<div style="margin-top:6px"><b class="sub">'+X("Why it happens & what to do","ஏன் வருகிறது & என்ன செய்யலாம்")+"</b>"+infoHTML(tk)+"</div>")};
+
+show();setInterval(function(){if(S.prof&&!editing)tick()},30000);
+</script>
+</body>
+</html>
